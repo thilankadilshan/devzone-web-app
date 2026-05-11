@@ -1,0 +1,37 @@
+:root {
+  /* Core Cinematic Palette */
+  --bg-primary: #050507; /* Deepest almost-black */
+  --bg-secondary: #0f0f13; /* Slightly lighter for cards/depth */
+  --text-main: #fafafa;
+  --text-muted: #8a8a93;
+
+  /* DevZone Accent Color (Neon Pink/Red vibe) */
+  --accent: #e50914;
+  --accent-glow: rgba(229, 9, 20, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family:
+    "Inter",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  overflow-x: hidden; /* Prevents horizontal scroll breaking the 3D illusion */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Hide the scrollbar entirely for that native app feel */
+::-webkit-scrollbar {
+  display: none;
+}

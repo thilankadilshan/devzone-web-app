@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Thilanka Dilshan | Cinematic Portfolio 2026
 
-## Getting Started
+Welcome to the source code for my personal portfolio. This is not a traditional static website; it is built to feel like a high-end, 2026-era application with movie-trailer aesthetics, smooth scroll-driven storytelling, and 3D interactions.
 
-First, run the development server:
+## 🚀 The Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Framework:** Next.js (App Router) + TypeScript
+- **Styling:** CSS Modules / SCSS (Strictly Custom, No Tailwind)
+- **Motion & Animation:** Framer Motion + GSAP
+- **3D Rendering:** React Three Fiber + Drei
+- **Deployment:** Vercel
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📂 Architecture
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The project follows a clean, highly modular architecture to support heavy animations without sacrificing performance:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+/ (Root)
+├── app/ # Next.js App Router (Pages, Layouts)
+├── approutes/ # Custom routing/API structures
+├── components/
+│ ├── animations/ # GSAP timelines & Framer Wrappers
+│ ├── layout/ # Global UI (Nav, Footer, Custom Cursor)
+│ ├── sections/ # Main page segments (Hero, About, Projects)
+│ └── canvas/ # React Three Fiber 3D models & scenes
+├── hooks/ # Custom React hooks (e.g., scroll tracking)
+├── styles/ # Global variables and CSS Modules
+└── utils/ # Helper functions and constants
 
-## Learn More
+## 👨‍💻 About the Developer
 
-To learn more about Next.js, take a look at the following resources:
+Built by **Thilanka Dilshan**, a Software Engineer specializing in modern full-stack development, complex system architecture, and high-performance UI/UX.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+_Initializing the future of web experiences._

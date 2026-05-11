@@ -1,0 +1,20 @@
+.cursorWrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 10001; /* Must be higher than everything but the Preloader */
+
+  /* Critical: Move the origin to the physical "point" of the triangle (top-left) */
+  transform-origin: 0% 0%;
+
+  /* Apply the intense neon glow effect */
+  filter: drop-shadow(0 0 5px var(--neon-red)) /* Short Glow */
+    drop-shadow(0 0 10px var(--neon-red)); /* Medium Spreading Glow */
+  will-change: transform;
+}
+
+.triangleSVG {
+  width: 26px; /* Optimized size for high-DPI screens */
+  height: 32px;
+}

@@ -20,14 +20,12 @@
 
 .video {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 .videoOverlay {
@@ -35,9 +33,9 @@
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(5, 5, 7, 0.4) 0%,
-    rgba(5, 5, 7, 0.5) 50%,
-    rgba(5, 5, 7, 0.7) 100%
+    rgba(5, 5, 7, 0.238) 0%,
+    rgba(5, 5, 7, 0.223) 50%,
+    rgba(5, 5, 7, 0.8) 100%
   );
   z-index: 1;
 }
@@ -61,10 +59,13 @@
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+  padding: 0 2rem;
+  max-width: 900px;
 }
 
 .label {
-  font-size: 0.75rem;
+  font-size: clamp(0.625rem, 1.2vw, 0.875rem);
+  margin-top: 5rem;
   letter-spacing: 6px;
   text-transform: uppercase;
   color: var(--accent);
@@ -72,35 +73,53 @@
   text-shadow: 0 0 20px var(--accent-glow);
 }
 
-.title {
-  display: flex;
-  flex-direction: column;
-  line-height: 0.9;
-  margin: 0;
-}
+/*
+  FONT OPTIONS FOR "THILANKA DILSHAN":
+  
+  Option 1: Inter (current) — Clean, modern, tech feel
+  font-family: 'Inter', sans-serif;
+  
+  Option 2: Bebas Neue — Bold, cinematic, movie poster style
+  Import: import { Bebas_Neue } from 'next/font/google';
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.05em;
+  
+  Option 3: Space Grotesk — Futuristic, geometric, tech
+  Import: import { Space_Grotesk } from 'next/font/google';
+  font-family: 'Space Grotesk', sans-serif;
+  
+  Option 4: Syne — Artistic, bold, modern portfolio feel
+  Import: import { Syne } from 'next/font/google';
+  font-family: 'Syne', sans-serif;
+  
+  Option 5: Clash Display (via @font-face) — Ultra bold, editorial
+  Download from fontshare.com
+  font-family: 'Clash Display', sans-serif;
+  font-weight: 700;
+  
+  Option 6: Monument Extended (via @font-face) — Luxury, high-end
+  Download from fontshare.com
+  font-family: 'Monument Extended', sans-serif;
+  letter-spacing: 0.02em;
+*/
 
-.titleLine1,
-.titleLine2 {
-  display: block;
-  font-size: clamp(3rem, 12vw, 10rem);
+.title {
+  font-size: clamp(3rem, 12vw, 7rem);
   font-weight: 900;
   letter-spacing: -0.02em;
   color: var(--text-main);
   text-transform: uppercase;
+  line-height: 1;
+  padding-top: 2rem;
+  margin: 0;
+  white-space: nowrap;
   text-shadow:
     0 0 40px rgba(229, 9, 20, 0.3),
     0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
-.titleLine2 {
-  margin-left: 0.1em;
-  color: transparent;
-  -webkit-text-stroke: 2px var(--text-main);
-  text-shadow: none;
-}
-
 .subtitle {
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(0.875rem, 1.8vw, 1.25rem);
   color: var(--text-muted);
   max-width: 500px;
   line-height: 1.6;
@@ -114,18 +133,21 @@
   display: flex;
   gap: 1rem;
   margin-top: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .ctaPrimary,
 .ctaSecondary {
-  padding: 1rem 2.5rem;
-  font-size: 0.875rem;
+  padding: clamp(0.75rem, 1.5vw, 1rem) clamp(1.5rem, 3vw, 2.5rem);
+  font-size: clamp(0.75rem, 1.2vw, 0.875rem);
   letter-spacing: 2px;
   text-transform: uppercase;
   text-decoration: none;
   transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
   position: relative;
   overflow: hidden;
+  white-space: nowrap;
 }
 
 .ctaPrimary {
@@ -176,7 +198,7 @@
 
 .scrollIndicator {
   position: absolute;
-  bottom: 3rem;
+  bottom: clamp(1.5rem, 4vh, 3rem);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -187,7 +209,7 @@
 }
 
 .scrollIndicator span {
-  font-size: 0.625rem;
+  font-size: clamp(0.5rem, 1vw, 0.625rem);
   letter-spacing: 4px;
   text-transform: uppercase;
   color: var(--text-muted);
@@ -195,7 +217,7 @@
 
 .scrollLine {
   width: 1px;
-  height: 60px;
+  height: clamp(40px, 6vh, 60px);
   background: linear-gradient(to bottom, var(--accent), transparent);
   animation: scrollPulse 2s ease-in-out infinite;
 }
@@ -222,4 +244,111 @@
   z-index: 2;
   pointer-events: none;
   box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.9);
+}
+
+/* === MOBILE & TOUCH FIXES === */
+
+@media (max-width: 768px) {
+  .title {
+    font-size: clamp(2.5rem, 14vw, 4rem);
+    white-space: normal;
+    line-height: 1.1;
+  }
+
+  .content {
+    gap: 1rem;
+    padding: 0 1.5rem;
+  }
+
+  .ctaGroup {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+  }
+
+  .vignette {
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Hide custom cursor on mobile */
+  .hero {
+    cursor: auto !important;
+  }
+
+  .hero a,
+  .hero button {
+    cursor: pointer !important;
+  }
+}
+
+@media (max-width: 1300px) {
+  .title {
+    font-size: clamp(2.5rem, 14vw, 3.5rem);
+    white-space: normal;
+    line-height: 1.1;
+  }
+
+  .content {
+    gap: 1rem;
+    padding: 0 1.5rem;
+  }
+
+  .ctaGroup {
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+  }
+
+  .vignette {
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.8);
+  }
+
+  /* Hide custom cursor on mobile */
+  .hero {
+    cursor: auto !important;
+  }
+
+  .hero a,
+  .hero button {
+    cursor: pointer !important;
+  }
+}
+@media (max-width: 480px) {
+  .title {
+    font-size: clamp(2rem, 12vw, 3rem);
+  }
+
+  .label {
+    letter-spacing: 3px;
+  }
+}
+
+/* === REDUCED MOTION === */
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollLine {
+    animation: none;
+  }
+
+  .video {
+    display: none;
+  }
+
+  .hero {
+    background: var(--bg-primary);
+  }
 }

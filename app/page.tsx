@@ -1,11 +1,13 @@
 import Hero from "../components/sections/Hero";
 import About from "../components/sections/About";
+import TechStack from "../components/sections/TechStack";
 
 export default function Home() {
   return (
     <>
       <Hero />
       <About />
+      <TechStack />
       {/* Next scenes coming soon... */}
       <section
         style={{
@@ -16,7 +18,7 @@ export default function Home() {
         }}
       >
         <p style={{ color: "var(--text-muted)", fontSize: "2rem" }}>
-          More scenes loading...
+          Projects loading...
         </p>
       </section>
     </>

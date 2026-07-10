@@ -14,14 +14,26 @@ export default function Hero() {
   const contentRef = useRef<HTMLDivElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const videoOverlayRef = useRef<HTMLDivElement>(null);
+  const particleLayerRef = useRef<HTMLDivElement>(null);
+  const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     const content = contentRef.current;
     const videoContainer = videoContainerRef.current;
     const videoOverlay = videoOverlayRef.current;
+    const particleLayer = particleLayerRef.current;
+    const scrollIndicator = scrollIndicatorRef.current;
 
-    if (!section || !content || !videoContainer || !videoOverlay) return;
+    if (
+      !section ||
+      !content ||
+      !videoContainer ||
+      !videoOverlay ||
+      !particleLayer ||
+      !scrollIndicator
+    )
+      return;
 
     const tl = gsap.timeline({
       scrollTrigger: {
@@ -33,34 +45,56 @@ export default function Hero() {
       },
     });
 
-    // PHASE 1: Text and buttons fade out (0% to 40% of scroll)
+    // PHASE 1: Content zooms out and fades (0% to 35%)
     tl.to(
       content,
       {
         opacity: 0,
-        y: -80,
-        filter: "blur(8px)",
+        scale: 1.1,
+        y: 0,
+        filter: "blur(12px)",
         ease: "power2.inOut",
       },
       0,
     );
 
-    // PHASE 2: Video overlay fades out — video becomes clearer (40% to 70%)
+    // PHASE 1.5: Scroll indicator fades with content (0% to 30%)
+    tl.to(
+      scrollIndicator,
+      {
+        opacity: 0,
+        y: 30,
+        ease: "power2.inOut",
+      },
+      0.1,
+    );
+
+    // PHASE 2: Video overlay fades — video becomes clearer (35% to 60%)
     tl.to(
       videoOverlay,
       {
         opacity: 0,
         ease: "power2.inOut",
       },
-      0.4,
+      0.35,
     );
 
-    // PHASE 3: Video container fades out completely (70% to 100%)
+    // PHASE 3: Particles + scroll indicator fade out (50% to 70%)
+    tl.to(
+      particleLayer,
+      {
+        opacity: 0,
+        ease: "power2.inOut",
+      },
+      0.5,
+    );
+
+    // PHASE 4: Video fades and zooms — handoff to next section (70% to 100%)
     tl.to(
       videoContainer,
       {
         opacity: 0,
-        scale: 1.1,
+        scale: 1.15,
         ease: "power2.inOut",
       },
       0.7,
@@ -85,7 +119,7 @@ export default function Hero() {
       </div>
 
       {/* PARTICLES OVER VIDEO */}
-      <div className={styles.particleLayer}>
+      <div ref={particleLayerRef} className={styles.particleLayer}>
         <HeroBackground />
       </div>
 
@@ -105,8 +139,8 @@ export default function Hero() {
 
         <motion.h1
           className={styles.title}
-          initial={{ opacity: 0, y: 60 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{
             delay: 0.8,
             duration: 1.2,
@@ -141,6 +175,7 @@ export default function Hero() {
       </div>
 
       <motion.div
+        ref={scrollIndicatorRef}
         className={styles.scrollIndicator}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

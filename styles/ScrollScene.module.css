@@ -1,0 +1,15 @@
+.scene {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Each scene is a full viewport "frame" */
+}
+
+/* When pinned, the section stays fixed */
+.scene[data-pin="true"] {
+  height: 100vh;
+}

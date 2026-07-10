@@ -1,6 +1,9 @@
+"use client"; // Convert to client component for state
+
 import "../styles/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { useState } from "react";
 import SmoothScroll from "../components/layout/SmoothScroll";
 import Preloader from "../components/layout/Preloader";
 import CustomCursor from "../components/layout/CustomCursor";
@@ -10,37 +13,34 @@ const inter = Inter({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: "Thilanka Dilshan | Software Engineer",
-  description:
-    "Cinematic digital portfolio of Thilanka Dilshan. Specializing in modern full-stack development, UI/UX, and high-performance web architecture.",
-  keywords: [
-    "Thilanka Dilshan",
-    "Software Engineer",
-    "Full Stack",
-    "Next.js",
-    "Sri Lanka",
-  ],
-};
-
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <html lang="en">
       <body className={inter.className}>
-        {/* Interaction Layer: Top priority */}
+        {/* Custom Cursor - Always On */}
         <CustomCursor />
 
-        {/* Orchestration Layer: Handles the intro */}
-        <Preloader />
+        {/* Preloader - Disappears after load */}
+        {!isLoaded && <Preloader onComplete={() => setIsLoaded(true)} />}
 
-        {/* Content Layer: Smooth scroll wrapper */}
-        <SmoothScroll>
-          <main>{children}</main>
-        </SmoothScroll>
+        {/* Main Content - Hidden until preloader done */}
+        <div
+          style={{
+            opacity: isLoaded ? 1 : 0,
+            transition: "opacity 0.5s ease",
+            pointerEvents: isLoaded ? "auto" : "none",
+          }}
+        >
+          <SmoothScroll>
+            <main>{children}</main>
+          </SmoothScroll>
+        </div>
       </body>
     </html>
   );

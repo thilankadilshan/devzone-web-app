@@ -1,29 +1,22 @@
-import HeroCanvas from "../components/canvas/HeroCanvas";
-import styles from "../styles/Home.module.css";
+import Hero from "../components/sections/Hero";
 
 export default function Home() {
   return (
-    <main className={styles.mainWrapper}>
-      {/* 3D background layer */}
-      <HeroCanvas />
-
-      {/* Hero Section Content */}
-      <section className={styles.heroSection}>
-        <div className={styles.container}>
-          <h1 className={styles.title}>
-            <span className={styles.nameBlock}>THILANKA</span>
-            <span className={styles.nameBlock}>
-              DIL<span className={styles.accentText}>SHA</span>N
-            </span>
-          </h1>
-          <p className={styles.roleBlock}>
-            SOFTWARE ENGINEER // FULL-STACK // CREATIVE DEV
-          </p>
-        </div>
+    <>
+      <Hero />
+      {/* Next scenes coming soon... */}
+      <section
+        style={{
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <p style={{ color: "var(--text-muted)", fontSize: "2rem" }}>
+          More scenes loading...
+        </p>
       </section>
-
-      {/* Spacer to allow for testing the scroll/sticky behavior */}
-      <div style={{ height: "100vh" }} />
-    </main>
+    </>
   );
 }

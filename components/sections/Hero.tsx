@@ -39,13 +39,13 @@ export default function Hero() {
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: "+=300%",
+        end: "+=150%", // Reduced from 300% to 150%
         pin: true,
         scrub: 1,
       },
     });
 
-    // PHASE 1: Content zooms out and fades (0% to 35%)
+    // PHASE 1: Content zooms out and fades (0% to 40%)
     tl.to(
       content,
       {
@@ -58,7 +58,7 @@ export default function Hero() {
       0,
     );
 
-    // PHASE 1.5: Scroll indicator fades with content (0% to 30%)
+    // Scroll indicator fades with content
     tl.to(
       scrollIndicator,
       {
@@ -69,7 +69,7 @@ export default function Hero() {
       0.1,
     );
 
-    // PHASE 2: Video overlay fades — video becomes clearer (35% to 60%)
+    // PHASE 2: Video overlay fades (40% to 60%)
     tl.to(
       videoOverlay,
       {
@@ -79,7 +79,7 @@ export default function Hero() {
       0.35,
     );
 
-    // PHASE 3: Particles + scroll indicator fade out (50% to 70%)
+    // PHASE 3: Particles fade (50% to 70%)
     tl.to(
       particleLayer,
       {
@@ -89,12 +89,12 @@ export default function Hero() {
       0.5,
     );
 
-    // PHASE 4: Video fades and zooms — handoff to next section (70% to 100%)
+    // PHASE 4: Video fades and zooms out (70% to 100%) — then unpins
     tl.to(
       videoContainer,
       {
         opacity: 0,
-        scale: 1.15,
+        scale: 1.1,
         ease: "power2.inOut",
       },
       0.7,
@@ -110,7 +110,6 @@ export default function Hero() {
 
   return (
     <section ref={sectionRef} className={styles.hero}>
-      {/* VIDEO BACKGROUND */}
       <div ref={videoContainerRef} className={styles.videoContainer}>
         <video className={styles.video} autoPlay muted loop playsInline>
           <source src="/videos/hero-bg.mp4" type="video/mp4" />
@@ -118,15 +117,12 @@ export default function Hero() {
         <div ref={videoOverlayRef} className={styles.videoOverlay} />
       </div>
 
-      {/* PARTICLES OVER VIDEO */}
       <div ref={particleLayerRef} className={styles.particleLayer}>
         <HeroBackground />
       </div>
 
-      {/* VIGNETTE */}
       <div className={styles.vignette} />
 
-      {/* CONTENT */}
       <div ref={contentRef} className={styles.content}>
         <motion.span
           className={styles.label}

@@ -32,54 +32,38 @@ export default function About() {
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
-        start: "top top",
-        end: "+=250%",
-        pin: true,
-        scrub: 1,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 0.5,
       },
     });
 
-    // PHASE 1: Image slides in from left, silhouette to reveal (0% to 30%)
     tl.fromTo(
       image,
-      { x: "-100%", opacity: 0, filter: "brightness(0) blur(10px)" },
-      {
-        x: "0%",
-        opacity: 1,
-        filter: "brightness(1) blur(0px)",
-        ease: "power2.out",
-      },
+      { x: -60, opacity: 0 },
+      { x: 0, opacity: 1, ease: "power2.out" },
       0,
     );
 
-    // PHASE 2: Text reveals line by line (20% to 50%)
     const textLines = text.querySelectorAll(`.${styles.revealLine}`);
     textLines.forEach((line, i) => {
       tl.fromTo(
         line,
-        { y: 40, opacity: 0, filter: "blur(4px)" },
-        { y: 0, opacity: 1, filter: "blur(0px)", ease: "power2.out" },
-        0.2 + i * 0.08,
+        { y: 25, opacity: 0 },
+        { y: 0, opacity: 1, ease: "power2.out" },
+        0.1 + i * 0.05,
       );
     });
 
-    // PHASE 3: Stats count up and slide in (50% to 80%)
     const statItems = statsEl.querySelectorAll(`.${styles.statItem}`);
     statItems.forEach((stat, i) => {
       tl.fromTo(
         stat,
-        { y: 30, opacity: 0 },
+        { y: 15, opacity: 0 },
         { y: 0, opacity: 1, ease: "power2.out" },
-        0.5 + i * 0.06,
+        0.35 + i * 0.04,
       );
     });
-
-    // PHASE 4: Everything fades, section exits (80% to 100%)
-    tl.to(
-      [image, text, statsEl],
-      { opacity: 0, y: -50, ease: "power2.in" },
-      0.8,
-    );
 
     return () => {
       tl.kill();
@@ -91,75 +75,74 @@ export default function About() {
 
   return (
     <section ref={sectionRef} className={styles.about} id="about">
-      {/* Background accent */}
-      <div className={styles.bgAccent} />
+      {/* Background — attached to this section only */}
+      <div className={styles.bgImage} />
+      <div className={styles.bgOverlay} />
 
-      <div className={styles.container}>
-        {/* Image Side */}
-        <div ref={imageRef} className={styles.imageSide}>
-          <div className={styles.imageWrapper}>
-            <img src="/images/profile.jpg" alt="Thilanka Dilshan" />
-            <div className={styles.imageOverlay} />
-            <div className={styles.imageBorder} />
+      {/* Content scrolls over background */}
+      <div className={styles.contentWrapper}>
+        <div className={styles.container}>
+          <div ref={imageRef} className={styles.imageSide}>
+            <div className={styles.imageWrapper}>
+              <img src="/images/profile.jpg" alt="Thilanka Dilshan" />
+              <div className={styles.imageOverlay} />
+              <div className={styles.imageBorder} />
+            </div>
+            <div className={styles.imageGlow} />
           </div>
-          <div className={styles.imageGlow} />
-        </div>
 
-        {/* Text Side */}
-        <div ref={textRef} className={styles.textSide}>
-          <span className={`${styles.revealLine} ${styles.sectionLabel}`}>
-            01 — About
-          </span>
-
-          <h2 className={`${styles.revealLine} ${styles.heading}`}>
-            The Engineer
-            <br />
-            Behind the Code
-          </h2>
-
-          <p className={`${styles.revealLine} ${styles.paragraph}`}>
-            I'm Thilanka Dilshan, a 23-year-old Software Engineer from Sri
-            Lanka, crafting digital experiences at Sharper Labs since May 2025.
-          </p>
-
-          <p className={`${styles.revealLine} ${styles.paragraph}`}>
-            Graduated BSc Computer Science from University of Plymouth (UK) via
-            NSBM Green University in December 2025. I build with MERN,
-            TypeScript, Laravel, and Prisma — no Tailwind unless the stack
-            demands it.
-          </p>
-
-          <p className={`${styles.revealLine} ${styles.paragraph}`}>
-            When I'm not shipping code, I'm running Dilshan DevZone on YouTube,
-            watching F1, or leading the Next Gen youth club. I believe in clean
-            architecture, aggressive performance, and interfaces that feel like
-            movies.
-          </p>
-
-          <div className={`${styles.revealLine} ${styles.signature}`}>
-            <span>Thilanka Dilshan</span>
-            <div className={styles.signatureLine} />
-          </div>
-        </div>
-      </div>
-
-      {/* Stats Bar */}
-      <div ref={statsRef} className={styles.statsBar}>
-        {stats.map((stat, i) => (
-          <div key={i} className={styles.statItem}>
-            <span className={styles.statValue}>
-              <Counter from={0} to={stat.value} />
-              {stat.suffix}
+          <div ref={textRef} className={styles.textSide}>
+            <span className={`${styles.revealLine} ${styles.sectionLabel}`}>
+              01 — About
             </span>
-            <span className={styles.statLabel}>{stat.label}</span>
+
+            <h2 className={`${styles.revealLine} ${styles.heading}`}>
+              The Engineer
+              <br />
+              Behind the Code
+            </h2>
+
+            <p className={`${styles.revealLine} ${styles.paragraph}`}>
+              I'm Thilanka Dilshan, a 23-year-old Software Engineer from Sri
+              Lanka, crafting digital experiences at Sharper Labs since May
+              2025.
+            </p>
+
+            <p className={`${styles.revealLine} ${styles.paragraph}`}>
+              Graduated BSc Computer Science from University of Plymouth (UK)
+              via NSBM Green University in December 2025. I build with MERN,
+              TypeScript, Laravel, and Prisma — no Tailwind unless the stack
+              demands it.
+            </p>
+
+            <p className={`${styles.revealLine} ${styles.paragraph}`}>
+              When I'm not shipping code, I'm running Dilshan DevZone on
+              YouTube, watching F1, or leading the Next Gen youth club.
+            </p>
+
+            <div className={`${styles.revealLine} ${styles.signature}`}>
+              <span>Thilanka Dilshan</span>
+              <div className={styles.signatureLine} />
+            </div>
           </div>
-        ))}
+        </div>
+
+        <div ref={statsRef} className={styles.statsBar}>
+          {stats.map((stat, i) => (
+            <div key={i} className={styles.statItem}>
+              <span className={styles.statValue}>
+                <Counter from={0} to={stat.value} />
+                {stat.suffix}
+              </span>
+              <span className={styles.statLabel}>{stat.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
 
-// Animated counter component
 function Counter({ from, to }: { from: number; to: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
@@ -168,13 +151,13 @@ function Counter({ from, to }: { from: number; to: number }) {
     if (!isInView || !ref.current) return;
 
     const node = ref.current;
-    const duration = 2000;
+    const duration = 1500;
     const start = performance.now();
 
     const animate = (now: number) => {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+      const eased = 1 - Math.pow(1 - progress, 3);
       const current = Math.floor(from + (to - from) * eased);
       node.textContent = current.toString();
 

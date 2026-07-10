@@ -112,7 +112,7 @@ export default function Hero() {
     <section ref={sectionRef} className={styles.hero}>
       <div ref={videoContainerRef} className={styles.videoContainer}>
         <video className={styles.video} autoPlay muted loop playsInline>
-          <source src="/videos/hero-bg.mp4" type="video/mp4" />
+          <source src="/videos/hero-bg.webm" type="video/webm" />
         </video>
         <div ref={videoOverlayRef} className={styles.videoOverlay} />
       </div>

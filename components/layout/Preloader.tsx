@@ -1,88 +1,89 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence, cubicBezier } from "framer-motion";
 import styles from "../../styles/Preloader.module.css";
 
 const loadingPhases = [
-  "INITIALIZING SCENE",
-  "LOADING GEOMETRY",
-  "COMPILING SHADERS",
-  "THILANKA DILSHAN",
+  "Initializing...",
+  "Loading Assets...",
+  "Preparing Experience...",
+  "Welcome to the Zone.",
 ];
 
-// Custom cinematic easing curve
-const cinematicEase = [0.76, 0, 0.24, 1] as const;
+const cinematicEase = cubicBezier(0.76, 0, 0.24, 1);
 
-export default function Preloader() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
+export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [phaseIndex, setPhaseIndex] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    // Simulated R3F loading sequence
-    const interval = setInterval(() => {
+    // Phase cycling
+    const phaseInterval = setInterval(() => {
+      setPhaseIndex((prev) => (prev + 1) % loadingPhases.length);
+    }, 800);
+
+    // Progress bar
+    const progressInterval = setInterval(() => {
       setProgress((prev) => {
-        const next = prev + Math.floor(Math.random() * 8) + 1;
-        if (next >= 100) {
-          clearInterval(interval);
-          setPhaseIndex(loadingPhases.length - 1); // Lock to final text
-          setTimeout(() => setIsLoading(false), 800); // Dramatic pause at 100%
+        if (prev >= 100) {
+          clearInterval(progressInterval);
+          clearInterval(phaseInterval);
+          setTimeout(() => setIsExiting(true), 400); // Small pause at 100%
+          setTimeout(() => onComplete(), 2000); // Wait for exit animation
           return 100;
         }
-
-        // Update text phase based on progress percentage
-        if (next > 25 && next <= 50) setPhaseIndex(1);
-        if (next > 50 && next <= 85) setPhaseIndex(2);
-        if (next > 85) setPhaseIndex(3);
-
-        return next;
+        return prev + Math.random() * 15 + 5; // Random jumps for realism
       });
-    }, 100);
+    }, 200);
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      clearInterval(phaseInterval);
+      clearInterval(progressInterval);
+    };
+  }, [onComplete]);
 
   return (
-    <AnimatePresence mode="wait">
-      {isLoading && (
+    <AnimatePresence>
+      {!isExiting && (
         <motion.div
           className={styles.preloader}
-          exit="exit" // Triggers exit variants on children
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
         >
           {/* Top Shutter */}
           <motion.div
             className={`${styles.curtain} ${styles.curtainTop}`}
-            variants={{
-              exit: {
-                y: "-100vh",
-                transition: { duration: 1.2, ease: cinematicEase, delay: 0.2 },
-              },
-            }}
+            initial={{ y: 0 }}
+            exit={{ y: "-100vh" }}
+            transition={{ duration: 1.2, ease: cinematicEase, delay: 0.2 }}
           />
 
           {/* Bottom Shutter */}
           <motion.div
             className={`${styles.curtain} ${styles.curtainBottom}`}
-            variants={{
-              exit: {
-                y: "100vh",
-                transition: { duration: 1.2, ease: cinematicEase, delay: 0.2 },
-              },
-            }}
+            initial={{ y: 0 }}
+            exit={{ y: "100vh" }}
+            transition={{ duration: 1.2, ease: cinematicEase, delay: 0.2 }}
           />
 
-          {/* Content (Text & Line) */}
+          {/* Center Content */}
           <motion.div
             className={styles.content}
-            variants={{
-              exit: {
-                opacity: 0,
-                scale: 0.9,
-                transition: { duration: 0.4, ease: "easeOut" },
-              },
-            }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
+            {/* Your Logo / Name Reveal */}
+            <motion.h1
+              className={styles.logo}
+              initial={{ opacity: 0, letterSpacing: "20px" }}
+              animate={{ opacity: 1, letterSpacing: "8px" }}
+              transition={{ duration: 1.5, ease: cinematicEase }}
+            >
+              Hang Tight!
+            </motion.h1>
+
             <div className={styles.textWrapper}>
               <AnimatePresence mode="wait">
                 <motion.div
@@ -101,10 +102,14 @@ export default function Preloader() {
             <div className={styles.progressContainer}>
               <motion.div
                 className={styles.progressFill}
-                style={{ width: `${progress}%` }}
-                layout
+                style={{ width: `${Math.min(progress, 100)}%` }}
               />
             </div>
+
+            {/* Percentage Counter */}
+            <motion.span className={styles.percentage}>
+              {Math.min(Math.floor(progress), 100)}%
+            </motion.span>
           </motion.div>
         </motion.div>
       )}

@@ -1,73 +1,84 @@
 .preloader {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   z-index: 9999;
   display: flex;
-  justify-content: center;
   align-items: center;
-  pointer-events: none; /* Allows clicks to pass through once hidden */
+  justify-content: center;
+  background-color: var(--bg-primary);
 }
 
-/* The Cinematic Shutters */
 .curtain {
   position: absolute;
-  width: 100vw;
+  left: 0;
+  width: 100%;
   height: 50vh;
-  background-color: #050505; /* Deep cinematic black */
-  will-change: transform;
+  background-color: var(--bg-primary);
+  z-index: 2;
 }
 
 .curtainTop {
   top: 0;
+  border-bottom: 1px solid rgba(229, 9, 20, 0.1);
 }
 
 .curtainBottom {
   bottom: 0;
+  border-top: 1px solid rgba(229, 9, 20, 0.1);
 }
 
-/* The Content Wrapper */
 .content {
   position: relative;
-  z-index: 10000;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
 }
 
-/* Cinematic Typography */
+.logo {
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 200;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: 8px;
+  text-shadow: 0 0 40px var(--accent-glow);
+}
+
 .textWrapper {
-  height: 20px; /* Fixed height to prevent layout shift */
+  height: 24px;
   overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .text {
-  font-family: sans-serif; /* You can switch this to a specific Google Font later */
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.4em;
+  font-size: 0.875rem;
+  color: var(--text-muted);
   text-transform: uppercase;
-  color: #ffffff;
-  opacity: 0.8;
+  letter-spacing: 4px;
+  font-weight: 400;
 }
 
-/* Razor-thin 1px Progress Line */
 .progressContainer {
-  width: 250px;
+  width: 200px;
   height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
   position: relative;
   overflow: hidden;
 }
 
 .progressFill {
-  position: absolute;
-  top: 0;
-  left: 0;
   height: 100%;
-  background: #ffffff;
-  transform-origin: left;
+  background: linear-gradient(90deg, var(--accent), #ff4d4d);
+  box-shadow: 0 0 10px var(--accent-glow);
+  transition: width 0.3s ease-out;
+}
+
+.percentage {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
 }

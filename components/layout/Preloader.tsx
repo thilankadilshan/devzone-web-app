@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence, cubicBezier } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import styles from "../../styles/Preloader.module.css";
 
 const loadingPhases = [
@@ -11,30 +11,38 @@ const loadingPhases = [
   "Welcome to the Zone.",
 ];
 
-const cinematicEase = cubicBezier(0.76, 0, 0.24, 1);
+const cinematicEase = [0.76, 0, 0.24, 1];
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [phaseIndex, setPhaseIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [isExiting, setIsExiting] = useState(false);
+  const [phase, setPhase] = useState<"loading" | "exiting" | "done">("loading");
+  const hasCalledComplete = useRef(false);
 
   useEffect(() => {
-    // Phase cycling
+    if (phase === "done" && !hasCalledComplete.current) {
+      hasCalledComplete.current = true;
+      onComplete();
+    }
+  }, [phase, onComplete]);
+
+  useEffect(() => {
+    if (phase !== "loading") return;
+
     const phaseInterval = setInterval(() => {
       setPhaseIndex((prev) => (prev + 1) % loadingPhases.length);
     }, 800);
 
-    // Progress bar
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           clearInterval(phaseInterval);
-          setTimeout(() => setIsExiting(true), 400); // Small pause at 100%
-          setTimeout(() => onComplete(), 2000); // Wait for exit animation
+          setTimeout(() => setPhase("exiting"), 400);
+          setTimeout(() => setPhase("done"), 1600);
           return 100;
         }
-        return prev + Math.random() * 15 + 5; // Random jumps for realism
+        return prev + Math.random() * 15 + 5;
       });
     }, 200);
 
@@ -42,77 +50,93 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
       clearInterval(phaseInterval);
       clearInterval(progressInterval);
     };
-  }, [onComplete]);
+  }, [phase]);
+
+  // Don't render anything if done (let parent unmount us)
+  if (phase === "done") return null;
+
+  const isExiting = phase === "exiting";
 
   return (
-    <AnimatePresence>
-      {!isExiting && (
-        <motion.div
-          className={styles.preloader}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.3 }}
+    <div className={styles.preloader} style={{ opacity: isExiting ? 0 : 1 }}>
+      {/* Top Shutter */}
+      <div
+        className={`${styles.curtain} ${styles.curtainTop}`}
+        style={{
+          transform: isExiting ? "translateY(-100vh)" : "translateY(0)",
+          transition: "transform 1.2s cubic-bezier(0.76, 0, 0.24, 1) 0.2s",
+        }}
+      />
+
+      {/* Bottom Shutter */}
+      <div
+        className={`${styles.curtain} ${styles.curtainBottom}`}
+        style={{
+          transform: isExiting ? "translateY(100vh)" : "translateY(0)",
+          transition: "transform 1.2s cubic-bezier(0.76, 0, 0.24, 1) 0.2s",
+        }}
+      />
+
+      {/* Center Content */}
+      <div
+        className={styles.content}
+        style={{
+          opacity: isExiting ? 0 : 1,
+          transform: isExiting ? "scale(0.9)" : "scale(1)",
+          transition: "opacity 0.4s ease-out, transform 0.4s ease-out",
+        }}
+      >
+        <h1
+          className={styles.logo}
+          style={{
+            opacity: 1,
+            letterSpacing: "8px",
+            transition: "letter-spacing 1.5s cubic-bezier(0.76, 0, 0.24, 1)",
+          }}
         >
-          {/* Top Shutter */}
-          <motion.div
-            className={`${styles.curtain} ${styles.curtainTop}`}
-            initial={{ y: 0 }}
-            exit={{ y: "-100vh" }}
-            transition={{ duration: 1.2, ease: cinematicEase, delay: 0.2 }}
-          />
+          Hang Tight!
+        </h1>
 
-          {/* Bottom Shutter */}
-          <motion.div
-            className={`${styles.curtain} ${styles.curtainBottom}`}
-            initial={{ y: 0 }}
-            exit={{ y: "100vh" }}
-            transition={{ duration: 1.2, ease: cinematicEase, delay: 0.2 }}
-          />
-
-          {/* Center Content */}
-          <motion.div
-            className={styles.content}
-            exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+        <div className={styles.textWrapper}>
+          <div
+            className={styles.text}
+            key={phaseIndex}
+            style={{
+              animation: "fadeInUp 0.4s ease forwards",
+            }}
           >
-            {/* Your Logo / Name Reveal */}
-            <motion.h1
-              className={styles.logo}
-              initial={{ opacity: 0, letterSpacing: "20px" }}
-              animate={{ opacity: 1, letterSpacing: "8px" }}
-              transition={{ duration: 1.5, ease: cinematicEase }}
-            >
-              Hang Tight!
-            </motion.h1>
+            {loadingPhases[phaseIndex]}
+          </div>
+        </div>
 
-            <div className={styles.textWrapper}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={phaseIndex}
-                  className={styles.text}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  {loadingPhases[phaseIndex]}
-                </motion.div>
-              </AnimatePresence>
-            </div>
+        <div className={styles.progressContainer}>
+          <div
+            className={styles.progressFill}
+            style={{
+              width: `${Math.min(progress, 100)}%`,
+              transition: "width 0.2s ease-out",
+            }}
+          />
+        </div>
 
-            <div className={styles.progressContainer}>
-              <motion.div
-                className={styles.progressFill}
-                style={{ width: `${Math.min(progress, 100)}%` }}
-              />
-            </div>
+        <span className={styles.percentage}>
+          {Math.min(Math.floor(progress), 100)}%
+        </span>
+      </div>
 
-            {/* Percentage Counter */}
-            <motion.span className={styles.percentage}>
-              {Math.min(Math.floor(progress), 100)}%
-            </motion.span>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+      {/* Add this keyframe to your Preloader.module.css */}
+      <style jsx>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
+    </div>
   );
 }

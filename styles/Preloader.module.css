@@ -82,3 +82,15 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: 2px;
 }
+
+/* ========== KEYFRAME MOVED FROM <style jsx> ========== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

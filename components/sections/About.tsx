@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -20,8 +20,16 @@ export default function About() {
   const imageRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    const timer = setTimeout(() => setReady(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+
     const section = sectionRef.current;
     const image = imageRef.current;
     const text = textRef.current;
@@ -71,15 +79,13 @@ export default function About() {
         if (t.trigger === section) t.kill();
       });
     };
-  }, []);
+  }, [ready]);
 
   return (
     <section ref={sectionRef} className={styles.about} id="about">
-      {/* Background — attached to this section only */}
       <div className={styles.bgImage} />
       <div className={styles.bgOverlay} />
 
-      {/* Content scrolls over background */}
       <div className={styles.contentWrapper}>
         <div className={styles.container}>
           <div ref={imageRef} className={styles.imageSide}>
@@ -144,13 +150,13 @@ export default function About() {
 }
 
 function Counter({ from, to }: { from: number; to: number }) {
+  const [value, setValue] = useState(from);
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true });
 
   useEffect(() => {
-    if (!isInView || !ref.current) return;
+    if (!isInView) return;
 
-    const node = ref.current;
     const duration = 1500;
     const start = performance.now();
 
@@ -159,7 +165,7 @@ function Counter({ from, to }: { from: number; to: number }) {
       const progress = Math.min(elapsed / duration, 1);
       const eased = 1 - Math.pow(1 - progress, 3);
       const current = Math.floor(from + (to - from) * eased);
-      node.textContent = current.toString();
+      setValue(current);
 
       if (progress < 1) {
         requestAnimationFrame(animate);
@@ -169,5 +175,5 @@ function Counter({ from, to }: { from: number; to: number }) {
     requestAnimationFrame(animate);
   }, [isInView, from, to]);
 
-  return <span ref={ref}>{from}</span>;
+  return <span ref={ref}>{value}</span>;
 }

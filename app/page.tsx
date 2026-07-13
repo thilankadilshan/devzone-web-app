@@ -10,19 +10,6 @@ export default function Home() {
       <About />
       <TechStack />
       <ProjectsPreview />
-      {/* Next scenes coming soon... */}
-      <section
-        style={{
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <p style={{ color: "var(--text-muted)", fontSize: "2rem" }}>
-          Projects loading...
-        </p>
-      </section>
     </>
   );
 }

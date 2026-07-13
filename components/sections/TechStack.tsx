@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "../../styles/TechStack.module.css";
@@ -59,13 +59,49 @@ const row1 = techLogos.slice(0, 14);
 const row2 = techLogos.slice(14, 28);
 const row3 = techLogos.slice(28);
 
+function MarqueeRow({
+  items,
+  direction,
+  rowKey,
+}: {
+  items: typeof techLogos;
+  direction: "left" | "right";
+  rowKey: string;
+}) {
+  // Use a stable doubled array with unique keys
+  const doubledItems = [...items, ...items];
+
+  return (
+    <div
+      className={`${styles.marqueeRow} ${direction === "left" ? styles.rowLeft : styles.rowRight}`}
+    >
+      <div className={styles.marqueeTrack}>
+        {doubledItems.map((tech, i) => (
+          <div key={`${rowKey}-${tech.name}-${i}`} className={styles.logoItem}>
+            <img src={tech.url} alt={tech.name} />
+            <span className={styles.logoTooltip}>{tech.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function TechStack() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    const timer = setTimeout(() => setReady(true), 400);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+
     const section = sectionRef.current;
     const title = titleRef.current;
     const left = leftRef.current;
@@ -104,7 +140,7 @@ export default function TechStack() {
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [ready]);
 
   return (
     <section ref={sectionRef} className={styles.techStack} id="tech">
@@ -116,49 +152,18 @@ export default function TechStack() {
       </div>
 
       <div className={styles.splitContainer}>
-        {/* LEFT: Tech Logos */}
         <div ref={leftRef} className={styles.stackSide}>
           <p className={styles.stackDescription}>
             The stack I wield to build scalable, high-performance applications.
           </p>
 
           <div className={styles.marqueeWrapper}>
-            <div className={`${styles.marqueeRow} ${styles.rowLeft}`}>
-              <div className={styles.marqueeTrack}>
-                {[...row1, ...row1].map((tech, i) => (
-                  <div key={`r1-${i}`} className={styles.logoItem}>
-                    <img src={tech.url} alt={tech.name} />
-                    <span className={styles.logoTooltip}>{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={`${styles.marqueeRow} ${styles.rowRight}`}>
-              <div className={styles.marqueeTrack}>
-                {[...row2, ...row2].map((tech, i) => (
-                  <div key={`r2-${i}`} className={styles.logoItem}>
-                    <img src={tech.url} alt={tech.name} />
-                    <span className={styles.logoTooltip}>{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className={`${styles.marqueeRow} ${styles.rowLeft}`}>
-              <div className={styles.marqueeTrack}>
-                {[...row3, ...row3].map((tech, i) => (
-                  <div key={`r3-${i}`} className={styles.logoItem}>
-                    <img src={tech.url} alt={tech.name} />
-                    <span className={styles.logoTooltip}>{tech.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <MarqueeRow items={row1} direction="left" rowKey="r1" />
+            <MarqueeRow items={row2} direction="right" rowKey="r2" />
+            <MarqueeRow items={row3} direction="left" rowKey="r3" />
           </div>
         </div>
 
-        {/* RIGHT: Robot */}
         <div ref={rightRef} className={styles.robotSide}>
           <div className={styles.robotWrapper}>
             <img

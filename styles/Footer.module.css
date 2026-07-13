@@ -1,0 +1,442 @@
+/* ============================================
+   CINEMATIC FOOTER — THILANKA DILSHAN
+   Auto-animating gradients | Scroll reveal | Mobile-first
+   ============================================ */
+
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding: 4rem 1.5rem 2rem;
+  background: linear-gradient(
+    180deg,
+    #12121a 0%,
+    #0e0e16 25%,
+    #0a0a12 50%,
+    #07070e 75%,
+    #050507 100%
+  );
+  isolation: isolate;
+}
+
+/* ---- Animated Gradient Orbs ---- */
+.orb1,
+.orb2,
+.orb3 {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb1 {
+  width: 500px;
+  height: 500px;
+  top: -150px;
+  left: -150px;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.35),
+    rgba(180, 20, 40, 0.15) 40%,
+    transparent 70%
+  );
+  animation: orbFloat1 10s ease-in-out infinite;
+}
+
+.orb2 {
+  width: 400px;
+  height: 400px;
+  top: 10%;
+  right: -100px;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.25),
+    rgba(140, 30, 80, 0.12) 40%,
+    transparent 70%
+  );
+  animation: orbFloat2 14s ease-in-out infinite;
+}
+
+.orb3 {
+  width: 350px;
+  height: 350px;
+  bottom: 0%;
+  left: 25%;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.2),
+    rgba(100, 20, 60, 0.1) 40%,
+    transparent 70%
+  );
+  animation: orbFloat3 8s ease-in-out infinite;
+}
+
+@keyframes orbFloat1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(80px, 50px) scale(1.15);
+  }
+  66% {
+    transform: translate(-40px, 70px) scale(0.9);
+  }
+}
+
+@keyframes orbFloat2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-60px, -40px) scale(1.2);
+  }
+}
+
+@keyframes orbFloat3 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(50px, -30px) scale(1.1);
+  }
+  75% {
+    transform: translate(-30px, 40px) scale(0.85);
+  }
+}
+
+/* ---- Top Cinematic Line ---- */
+.topLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(229, 9, 20, 0) 5%,
+    rgba(229, 9, 20, 0.8) 25%,
+    var(--accent) 50%,
+    rgba(229, 9, 20, 0.8) 75%,
+    rgba(229, 9, 20, 0) 95%,
+    transparent 100%
+  );
+  animation: linePulse 3s ease-in-out infinite;
+  box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+}
+
+@keyframes linePulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ---- Content ---- */
+.content {
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ---- Main Grid ---- */
+.mainGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+/* ---- Brand Column ---- */
+.brandCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: 200;
+  color: var(--text-main);
+  letter-spacing: 6px;
+  text-shadow: 0 0 30px var(--accent-glow);
+  display: inline-block;
+}
+
+.tagline {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  max-width: 260px;
+}
+
+.emailLink {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  letter-spacing: 1.5px;
+  text-transform: lowercase;
+  transition: color 0.3s ease;
+  position: relative;
+  width: fit-content;
+  margin-top: 0.25rem;
+}
+
+.emailLink::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--accent);
+  transition: width 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.emailLink:hover {
+  color: var(--accent);
+}
+
+.emailLink:hover::after {
+  width: 100%;
+}
+
+/* ---- Column Labels ---- */
+.colLabel {
+  display: block;
+  font-size: 0.65rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin-bottom: 1.25rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* ---- Link Lists ---- */
+.linkList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footerLink {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+  display: inline-block;
+  position: relative;
+}
+
+.footerLink::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%) scale(0);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  transition: transform 0.3s ease;
+}
+
+.footerLink:hover {
+  color: var(--text-main);
+  transform: translateX(8px);
+}
+
+.footerLink:hover::before {
+  transform: translateY(-50%) scale(1);
+}
+
+/* ---- Social Icons ---- */
+.socialGrid {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.socialIcon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.socialIcon:hover {
+  color: var(--accent);
+  border-color: rgba(229, 9, 20, 0.4);
+  background: rgba(229, 9, 20, 0.12);
+  box-shadow:
+    0 0 25px rgba(229, 9, 20, 0.2),
+    0 4px 15px rgba(229, 9, 20, 0.1);
+  transform: translateY(-3px);
+}
+
+.socialIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---- Location ---- */
+.location {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-top: 1.25rem;
+}
+
+.available {
+  color: rgba(0, 212, 170, 0.8);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ---- Divider ---- */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(229, 9, 20, 0.15) 20%,
+    rgba(229, 9, 20, 0.35) 50%,
+    rgba(229, 9, 20, 0.15) 80%,
+    transparent 100%
+  );
+  margin: 1.5rem 0;
+  transform-origin: center;
+}
+
+/* ---- Bottom Row ---- */
+.bottomRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.copyright {
+  font-size: 0.75rem;
+  color: rgba(138, 138, 147, 0.5);
+  letter-spacing: 1px;
+}
+
+.credit {
+  font-size: 0.7rem;
+  color: rgba(138, 138, 147, 0.3);
+  letter-spacing: 1px;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 3rem 1.25rem 1.5rem;
+  }
+
+  .mainGrid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+
+  .brandCol {
+    align-items: center;
+  }
+
+  .tagline {
+    max-width: 100%;
+  }
+
+  .emailLink {
+    margin: 0 auto;
+  }
+
+  .navCol .linkList {
+    align-items: center;
+  }
+
+  .socialCol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .socialGrid {
+    justify-content: center;
+  }
+
+  .location {
+    text-align: center;
+  }
+
+  .bottomRow {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .orb1 {
+    width: 250px;
+    height: 250px;
+    top: -60px;
+    left: -60px;
+  }
+
+  .orb2 {
+    width: 200px;
+    height: 200px;
+    right: -50px;
+  }
+
+  .orb3 {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 2.5rem 1rem 1.25rem;
+  }
+
+  .logo {
+    font-size: 1.75rem;
+  }
+
+  .colLabel {
+    margin-bottom: 0.875rem;
+  }
+
+  .socialIcon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .socialIcon svg {
+    width: 16px;
+    height: 16px;
+  }
+}

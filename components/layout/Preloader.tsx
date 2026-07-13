@@ -102,7 +102,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             className={styles.text}
             key={phaseIndex}
             style={{
-              animation: "fadeInUp 0.4s ease forwards",
+              animation: `${styles.fadeInUp || "fadeInUp"} 0.4s ease forwards`,
             }}
           >
             {loadingPhases[phaseIndex]}
@@ -123,20 +123,6 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
           {Math.min(Math.floor(progress), 100)}%
         </span>
       </div>
-
-      {/* Add this keyframe to your Preloader.module.css */}
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </div>
   );
 }

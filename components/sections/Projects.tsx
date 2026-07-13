@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "../../styles/Projects.module.css";
@@ -149,7 +149,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
       <div className={styles.imageSide}>
         <div ref={imageRef} className={styles.imageWrapper}>
-          {/* REAL IMAGE - REPLACES PLACEHOLDER */}
           <img
             src={project.image}
             alt={`${project.title} - Project by Thilanka Dilshan`}
@@ -216,8 +215,16 @@ export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    const timer = setTimeout(() => setReady(true), 200);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+
     const section = sectionRef.current;
     const title = titleRef.current;
     const progress = progressRef.current;
@@ -257,7 +264,7 @@ export default function Projects() {
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [ready]);
 
   return (
     <section ref={sectionRef} className={styles.projects} id="projects">

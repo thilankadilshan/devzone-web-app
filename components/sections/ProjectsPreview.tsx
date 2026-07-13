@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Link from "next/link";
@@ -134,8 +134,16 @@ function PreviewCard({ project, index }: { project: Project; index: number }) {
 export default function ProjectsPreview() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
+    const timer = setTimeout(() => setReady(true), 500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+
     const section = sectionRef.current;
     const title = titleRef.current;
     if (!section || !title) return;
@@ -159,10 +167,10 @@ export default function ProjectsPreview() {
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [ready]);
 
   return (
-    <section ref={sectionRef} className={styles.preview} id="projects">
+    <section ref={sectionRef} className={styles.preview} id="projects-preview">
       <div className={styles.bgGradient} />
 
       <div ref={titleRef} className={styles.titleSection}>
@@ -180,7 +188,7 @@ export default function ProjectsPreview() {
       </div>
 
       <div className={styles.ctaWrap}>
-        <Link href="/projects" className={styles.showMoreBtn}>
+        <a href="/projects" className={styles.showMoreBtn}>
           <span>View Full Reel</span>
           <svg
             width="18"
@@ -195,7 +203,7 @@ export default function ProjectsPreview() {
             <path d="M5 12h14" />
             <path d="m12 5 7 7-7 7" />
           </svg>
-        </Link>
+        </a>
       </div>
     </section>
   );

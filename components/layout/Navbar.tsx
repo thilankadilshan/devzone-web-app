@@ -8,7 +8,7 @@ const navLinks = [
   { href: "/", label: "Home" },
   { href: "/#about", label: "About" },
   { href: "/#tech", label: "Tech" },
-  { href: "/projects", label: "Projects" },
+  { href: "/projects", label: "Projects", reload: true },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
@@ -45,13 +45,23 @@ export default function Navbar() {
         <ul className={`${styles.links} ${menuOpen ? styles.open : ""}`}>
           {navLinks.map((link) => (
             <li key={link.href}>
-              <Link
-                href={link.href}
-                className={styles.link}
-                onClick={() => setMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
+              {link.reload ? (
+                <a
+                  href={link.href}
+                  className={styles.link}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  href={link.href}
+                  className={styles.link}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              )}
             </li>
           ))}
         </ul>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -16,8 +16,17 @@ export default function Hero() {
   const videoOverlayRef = useRef<HTMLDivElement>(null);
   const particleLayerRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+  const [ready, setReady] = useState(false);
+
+  // DEFER: Wait for layout to stabilize before initializing GSAP
+  useEffect(() => {
+    const timer = setTimeout(() => setReady(true), 200);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
+    if (!ready) return;
+
     const section = sectionRef.current;
     const content = contentRef.current;
     const videoContainer = videoContainerRef.current;
@@ -39,7 +48,7 @@ export default function Hero() {
       scrollTrigger: {
         trigger: section,
         start: "top top",
-        end: "+=150%", // Reduced from 300% to 150%
+        end: "+=150%",
         pin: true,
         scrub: 1,
       },
@@ -89,7 +98,7 @@ export default function Hero() {
       0.5,
     );
 
-    // PHASE 4: Video fades and zooms out (70% to 100%) — then unpins
+    // PHASE 4: Video fades and zooms out (70% to 100%)
     tl.to(
       videoContainer,
       {
@@ -106,7 +115,7 @@ export default function Hero() {
         if (t.trigger === section) t.kill();
       });
     };
-  }, []);
+  }, [ready]);
 
   return (
     <section ref={sectionRef} className={styles.hero}>

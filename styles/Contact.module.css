@@ -1,0 +1,888 @@
+.contactSection {
+  position: relative;
+  min-height: 100vh;
+  padding: 120px 0 60px;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+/* Background Effects - subtle, not overwhelming */
+.bgGradient {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(229, 9, 20, 0.05) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse at 20% 80%,
+      rgba(229, 9, 20, 0.03) 0%,
+      transparent 50%
+    );
+  pointer-events: none;
+}
+
+.bgGrid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(229, 9, 20, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(229, 9, 20, 0.015) 1px, transparent 1px);
+  background-size: 100px 100px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.orb1 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.06) 0%,
+    transparent 70%
+  );
+  top: 5%;
+  left: -15%;
+  animation: floatOrb 20s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.orb2 {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.04) 0%,
+    transparent 70%
+  );
+  bottom: 15%;
+  right: -10%;
+  animation: floatOrb 25s ease-in-out infinite reverse;
+  pointer-events: none;
+}
+
+@keyframes floatOrb {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(40px, -30px) scale(1.08);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.95);
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ========== CENTERED SECTION HEADER ========== */
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.sectionLabel {
+  display: inline-block;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: var(--accent);
+  margin-bottom: 24px;
+  font-weight: 600;
+  padding: 8px 20px;
+  background: rgba(229, 9, 20, 0.08);
+  border: 1px solid rgba(229, 9, 20, 0.15);
+  border-radius: 30px;
+}
+
+.sectionTitle {
+  font-size: clamp(40px, 5.5vw, 68px);
+  font-weight: 800;
+  line-height: 1.05;
+  color: var(--text-main);
+  margin: 0 0 24px 0;
+  text-align: center;
+}
+
+.sectionTitle span {
+  display: block;
+}
+
+.sectionSubtitle {
+  font-size: 17px;
+  line-height: 1.8;
+  color: var(--text-muted);
+  margin: 0 auto;
+  max-width: 600px;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+/* ========== CONTACT GRID - EQUAL HEIGHT COLUMNS ========== */
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 50px;
+  align-items: stretch;
+}
+
+/* ========== LEFT COLUMN ========== */
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+
+/* Contact Image */
+.contactImageWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.contactImageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.contactImage {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.contactImageContainer:hover .contactImage {
+  transform: scale(1.05);
+}
+
+.contactImageOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5, 5, 7, 0.6) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.contactImageGlow {
+  position: absolute;
+  inset: -2px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, rgba(229, 9, 20, 0.2), transparent 60%);
+  z-index: -1;
+  opacity: 0.6;
+  filter: blur(20px);
+}
+
+/* WhatsApp Button - GLOWING GREEN */
+.whatsappButton {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 26px;
+  background: linear-gradient(
+    135deg,
+    rgba(37, 211, 102, 0.15),
+    rgba(37, 211, 102, 0.05)
+  );
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  border-radius: 18px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.whatsappButton::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    135deg,
+    rgba(37, 211, 102, 0.3),
+    rgba(37, 211, 102, 0.1)
+  );
+  border-radius: 20px;
+  z-index: -1;
+  filter: blur(12px);
+  opacity: 0.4;
+  transition: opacity 0.4s ease;
+}
+
+.whatsappButton:hover::before {
+  opacity: 0.8;
+}
+
+.whatsappButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 211, 102, 0.22),
+    rgba(37, 211, 102, 0.08)
+  );
+  border-color: rgba(37, 211, 102, 0.6);
+  transform: translateX(6px);
+  box-shadow:
+    0 0 40px rgba(37, 211, 102, 0.25),
+    0 0 80px rgba(37, 211, 102, 0.1);
+}
+
+.whatsappIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    rgba(37, 211, 102, 0.2),
+    rgba(37, 211, 102, 0.1)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #25d366;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 20px rgba(37, 211, 102, 0.15);
+}
+
+.whatsappButton:hover .whatsappIcon {
+  background: linear-gradient(
+    135deg,
+    rgba(37, 211, 102, 0.3),
+    rgba(37, 211, 102, 0.15)
+  );
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(37, 211, 102, 0.3);
+}
+
+.whatsappContent {
+  flex: 1;
+}
+
+.whatsappLabel {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #25d366;
+  margin-bottom: 4px;
+  text-shadow: 0 0 10px rgba(37, 211, 102, 0.3);
+}
+
+.whatsappText {
+  display: block;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.whatsappArrow {
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.whatsappButton:hover .whatsappArrow {
+  transform: translateX(4px);
+  color: #25d366;
+}
+
+/* Contact Info Cards */
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.infoCardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.infoCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.04),
+    rgba(255, 255, 255, 0.01)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.infoCard:hover {
+  border-color: rgba(229, 9, 20, 0.3);
+  background: linear-gradient(
+    135deg,
+    rgba(229, 9, 20, 0.08),
+    rgba(229, 9, 20, 0.02)
+  );
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(229, 9, 20, 0.1);
+}
+
+.infoIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(229, 9, 20, 0.12),
+    rgba(229, 9, 20, 0.05)
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.infoCard:hover .infoIcon {
+  background: linear-gradient(
+    135deg,
+    rgba(229, 9, 20, 0.2),
+    rgba(229, 9, 20, 0.08)
+  );
+  transform: scale(1.08);
+}
+
+.infoContent {
+  flex: 1;
+}
+
+.infoLabel {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.infoValue {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: color 0.3s ease;
+}
+
+.infoCard:hover .infoValue {
+  color: #fff;
+}
+
+/* ========== RIGHT COLUMN - FORM ========== */
+.rightColumn {
+  position: relative;
+  height: 100%;
+}
+
+/* 
+  COLOR HIERARCHY (all different from each other):
+  - Section bg:     var(--bg-primary) = #050507  (darkest)
+  - Form card bg:   #12121a  (slightly lighter than section)
+  - Field bg:       #1a1a24  (lighter than form card)
+  - Input text:     #fafafa  (white)
+*/
+
+.contactForm {
+  position: relative;
+  background: #12121a;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 24px;
+  padding: 44px;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contactForm::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(229, 9, 20, 0.4),
+    transparent
+  );
+}
+
+.formHeader {
+  margin-bottom: 12px;
+}
+
+.formTitle {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 8px 0;
+}
+
+.formSubtitle {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Input Styles - DISTINCT from form card bg */
+.inputWrapper {
+  position: relative;
+  background: #1a1a24;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 18px 22px;
+  transition: all 0.3s ease;
+}
+
+.inputWrapper:focus-within {
+  background: #1f1f2a;
+  border-color: rgba(229, 9, 20, 0.4);
+}
+
+.textareaWrapper {
+  grid-column: 1 / -1;
+}
+
+.inputLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+}
+
+.inputLabel svg {
+  color: var(--accent);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-main);
+  font-size: 15px;
+  font-family: inherit;
+  padding: 0;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: rgba(138, 138, 147, 0.5);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+.inputLine {
+  position: absolute;
+  bottom: 0;
+  left: 22px;
+  right: 22px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), #ff6b35);
+  transform-origin: left;
+  border-radius: 2px;
+}
+
+/* Submit Button */
+.submitButton {
+  width: 100%;
+  margin-top: 8px;
+  padding: 18px 32px;
+  background: linear-gradient(135deg, #e50914, #c40812);
+  border: none;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.5px;
+}
+
+.submitButton::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.submitButton:hover::before {
+  opacity: 1;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.buttonContent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Spinner */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ========== ROCKET ANIMATION (Success only) ========== */
+.rocketContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.rocket {
+  position: relative;
+  z-index: 2;
+}
+
+.rocketTrail {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 60px;
+  background: linear-gradient(to bottom, #ff6b35, transparent);
+  border-radius: 4px;
+  filter: blur(4px);
+  opacity: 0;
+  transform-origin: top center;
+}
+
+/* ========== SUCCESS STATE ========== */
+.successContainer {
+  background: #12121a;
+  border: 1px solid rgba(229, 9, 20, 0.2);
+  border-radius: 24px;
+  padding: 60px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 500px;
+}
+
+.successContainer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(229, 9, 20, 0.4),
+    transparent
+  );
+}
+
+.particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.successIcon {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 28px;
+}
+
+.successTitle {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-main);
+  margin: 0 0 16px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.successText {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-muted);
+  margin: 0 0 12px 0;
+  max-width: 400px;
+  position: relative;
+  z-index: 1;
+}
+
+.successSubtext {
+  font-size: 14px;
+  color: var(--accent);
+  margin: 0 0 36px 0;
+  position: relative;
+  z-index: 1;
+}
+
+.resetButton {
+  padding: 14px 36px;
+  background: linear-gradient(
+    135deg,
+    rgba(229, 9, 20, 0.1),
+    rgba(229, 9, 20, 0.05)
+  );
+  border: 1px solid rgba(229, 9, 20, 0.25);
+  border-radius: 14px;
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.76, 0, 0.24, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.resetButton:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(229, 9, 20, 0.18),
+    rgba(229, 9, 20, 0.08)
+  );
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(229, 9, 20, 0.15);
+}
+
+/* ========== FOOTER ========== */
+.footer {
+  margin-top: 100px;
+  padding-top: 40px;
+}
+
+.footerLine {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  margin-bottom: 40px;
+}
+
+.footerContent {
+  text-align: center;
+}
+
+.footerText {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0 0 8px 0;
+}
+
+.footerSubtext {
+  font-size: 12px;
+  color: rgba(138, 138, 147, 0.5);
+  margin: 0;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1024px) {
+  .contactGrid {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .leftColumn,
+  .rightColumn {
+    height: auto;
+  }
+
+  .contactForm,
+  .successContainer {
+    height: auto;
+    min-height: auto;
+  }
+
+  .sectionTitle {
+    font-size: 42px;
+  }
+
+  .contactImageContainer {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .contactSection {
+    padding: 80px 0 40px;
+  }
+
+  .sectionHeader {
+    margin-bottom: 50px;
+  }
+
+  .sectionTitle {
+    font-size: 34px;
+  }
+
+  .sectionSubtitle {
+    font-size: 15px;
+  }
+
+  .contactForm {
+    padding: 28px 22px;
+    gap: 16px;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .successContainer {
+    padding: 40px 24px;
+    min-height: 400px;
+  }
+
+  .successTitle {
+    font-size: 26px;
+  }
+
+  .infoCard {
+    padding: 16px 18px;
+  }
+
+  .whatsappButton {
+    padding: 18px 20px;
+  }
+
+  .contactImageContainer {
+    aspect-ratio: 16 / 10;
+  }
+
+  .footer {
+    margin-top: 60px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sectionTitle {
+    font-size: 28px;
+  }
+
+  .sectionLabel {
+    font-size: 11px;
+    padding: 6px 14px;
+  }
+
+  .contactForm {
+    padding: 24px 18px;
+    border-radius: 20px;
+    gap: 14px;
+  }
+
+  .inputWrapper {
+    padding: 16px 18px;
+    border-radius: 14px;
+  }
+
+  .submitButton {
+    padding: 16px 24px;
+    font-size: 14px;
+  }
+
+  .whatsappIcon {
+    width: 42px;
+    height: 42px;
+  }
+
+  .infoIcon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .contactImageContainer {
+    border-radius: 16px;
+  }
+}

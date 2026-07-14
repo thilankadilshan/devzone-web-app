@@ -1,0 +1,348 @@
+/* ============================================
+   DASHBOARD NAVIGATION
+   ============================================ */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(5, 5, 7, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.navInner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navAccent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--accent) 20%,
+    var(--accent) 80%,
+    transparent 100%
+  );
+  opacity: 0.6;
+}
+
+/* Left Section */
+.navLeft {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.backLink:hover {
+  color: var(--accent);
+}
+
+.backLink svg {
+  transition: transform 0.3s ease;
+}
+
+.backLink:hover svg {
+  transform: translateX(-3px);
+}
+
+.navDivider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.navBrand {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.2em;
+  color: var(--text-main);
+}
+
+/* Center Section */
+.navCenter {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.navLink {
+  padding: 0.5rem 1rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.navLink:hover {
+  color: var(--text-main);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.navLink[data-active="true"],
+.navLink[aria-current="page"] {
+  color: var(--accent);
+  background: rgba(229, 9, 20, 0.06);
+}
+
+/* Right Section */
+.navRight {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.userEmail {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.01em;
+}
+
+.logoutBtn {
+  padding: 0.5rem 1.25rem;
+  background: transparent;
+  border: 1px solid rgba(229, 9, 20, 0.4);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.logoutBtn:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+/* ============================================
+   DASHBOARD LAYOUT & MAIN CONTENT
+   ============================================ */
+
+.dashboardLayout {
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-inter), "Inter", sans-serif;
+}
+
+.main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2.5rem;
+}
+
+/* Page Header */
+.pageHeader {
+  margin-bottom: 2.5rem;
+}
+
+.pageHeader h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.pageHeader p {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ============================================
+   STATS CARDS
+   ============================================ */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.statCard {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 6px;
+  padding: 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.statCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.statCard:hover {
+  border-color: rgba(229, 9, 20, 0.15);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.statCard:hover::before {
+  opacity: 0.6;
+}
+
+.statValue {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   RECENT POSTS / SECTIONS
+   ============================================ */
+
+.section {
+  margin-bottom: 3rem;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.sectionHeader h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+
+.newPostBtn {
+  padding: 0.625rem 1.25rem;
+  background: var(--accent);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.newPostBtn:hover {
+  box-shadow: 0 0 24px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+.emptyState {
+  padding: 4rem 2rem;
+  background: var(--bg-secondary);
+  border: 1px dashed rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.emptyState p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .navCenter {
+    display: none;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .navInner {
+    padding: 0 1.25rem;
+  }
+
+  .navBrand {
+    display: none;
+  }
+
+  .userEmail {
+    display: none;
+  }
+
+  .main {
+    padding: 1.5rem;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 0.875rem;
+  }
+
+  .statCard {
+    padding: 1.25rem;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .statValue {
+    font-size: 1.75rem;
+  }
+}

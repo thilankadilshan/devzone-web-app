@@ -1,4 +1,11 @@
-// User-agent: *
-// Allow: /
+import type { MetadataRoute } from "next";
 
-// Sitemap: https://thilankadilshan.vercel.app/sitemap.xml
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: {
+      userAgent: "*",
+      allow: "/",
+    },
+    sitemap: "https://thilankadilshan.vercel.app/sitemap.xml",
+  };
+}

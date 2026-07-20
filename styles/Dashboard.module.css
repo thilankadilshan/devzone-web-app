@@ -292,11 +292,15 @@
   border: 1px dashed rgba(255, 255, 255, 0.06);
   border-radius: 6px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .emptyState p {
   color: var(--text-muted);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
 }
 
 /* ============================================
@@ -853,4 +857,125 @@
   display: flex;
   gap: 0.375rem;
   flex-shrink: 0;
+}
+
+/* ============================================
+   CATEGORIES
+   ============================================ */
+
+.categoryCreateForm {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+}
+
+.categoryFormRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.categoryFormRow .textInput {
+  flex: 1;
+  min-width: 200px;
+  background: var(--bg-primary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 0.625rem 1rem;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.categoryFormRow .textInput:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.08);
+}
+
+.categoryFormRow .textInput::placeholder {
+  color: rgba(138, 138, 147, 0.5);
+}
+
+/* Category checkbox list in PostForm */
+.categoryCheckbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.categoryCheckbox:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+}
+
+.categoryCheckboxSelected {
+  background: rgba(229, 9, 20, 0.12);
+  border-color: rgba(229, 9, 20, 0.3);
+  color: var(--text-main);
+}
+
+.categoryCheckboxBox {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.categoryCheckboxSelected .categoryCheckboxBox {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Multi-select for categories */
+.selectInput[multiple] {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 0.5rem;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  outline: none;
+  width: 100%;
+  cursor: pointer;
+}
+
+.selectInput[multiple] option {
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 2px;
+}
+
+.selectInput[multiple] option:checked {
+  background: rgba(229, 9, 20, 0.2);
+  color: var(--text-main);
+}
+
+.selectInput[multiple] option:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.selectInput[multiple]:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.08);
 }

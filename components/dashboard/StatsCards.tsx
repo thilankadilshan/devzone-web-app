@@ -7,6 +7,7 @@ interface StatsCardsProps {
   totalViews: number;
   publishedCount: number;
   draftCount: number;
+  categoriesCount: number;
 }
 
 export default function StatsCards({
@@ -14,12 +15,13 @@ export default function StatsCards({
   totalViews,
   publishedCount,
   draftCount,
+  categoriesCount,
 }: StatsCardsProps) {
   const stats = [
     { label: "Total Posts", value: totalPosts },
     { label: "Total Views", value: totalViews },
     { label: "Published", value: publishedCount },
-    { label: "Drafts", value: draftCount },
+    { label: "Categories", value: categoriesCount },
   ];
 
   return (

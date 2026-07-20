@@ -1,13 +1,13 @@
 import { createClient } from "@/lib/supabase/server";
 import { NextResponse } from "next/server";
 
-// GET /api/posts/[id] — get single post
+// GET /api/posts/[slug] — get single post by slug
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   const supabase = await createClient();
-  const { id } = await params;
+  const { slug } = await params;
 
   const { data, error } = await supabase
     .from("posts")
@@ -17,7 +17,7 @@ export async function GET(
         category:categories(id, name, slug)
       )`,
     )
-    .eq("id", id)
+    .eq("slug", slug)
     .single();
 
   if (error) {
@@ -36,10 +36,10 @@ export async function GET(
   return NextResponse.json({ post });
 }
 
-// PATCH /api/posts/[id] — update post
+// PATCH /api/posts/[slug] — update post by slug
 export async function PATCH(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   const supabase = await createClient();
   const {
@@ -50,15 +50,28 @@ export async function PATCH(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = await params;
+  const { slug } = await params;
   const body = await request.json();
   const { category_ids, ...postData } = body;
+
+  // First get the post ID from slug
+  const { data: existingPost } = await supabase
+    .from("posts")
+    .select("id")
+    .eq("slug", slug)
+    .single();
+
+  if (!existingPost) {
+    return NextResponse.json({ error: "Post not found" }, { status: 404 });
+  }
+
+  const postId = existingPost.id;
 
   // Update post
   const { data, error } = await supabase
     .from("posts")
     .update(postData)
-    .eq("id", id)
+    .eq("id", postId)
     .select()
     .single();
 
@@ -69,12 +82,12 @@ export async function PATCH(
   // Update category relations if provided
   if (category_ids !== undefined) {
     // Delete existing relations
-    await supabase.from("post_categories").delete().eq("post_id", id);
+    await supabase.from("post_categories").delete().eq("post_id", postId);
 
     // Insert new relations
     if (category_ids.length > 0) {
       const junctionData = category_ids.map((catId: string) => ({
-        post_id: id,
+        post_id: postId,
         category_id: catId,
       }));
 
@@ -91,10 +104,10 @@ export async function PATCH(
   return NextResponse.json({ post: data });
 }
 
-// DELETE /api/posts/[id] — delete post
+// DELETE /api/posts/[slug] — delete post by slug
 export async function DELETE(
   request: Request,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ slug: string }> },
 ) {
   const supabase = await createClient();
   const {
@@ -105,9 +118,23 @@ export async function DELETE(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = await params;
+  const { slug } = await params;
 
-  const { error } = await supabase.from("posts").delete().eq("id", id);
+  // Get post ID from slug first
+  const { data: existingPost } = await supabase
+    .from("posts")
+    .select("id")
+    .eq("slug", slug)
+    .single();
+
+  if (!existingPost) {
+    return NextResponse.json({ error: "Post not found" }, { status: 404 });
+  }
+
+  const { error } = await supabase
+    .from("posts")
+    .delete()
+    .eq("id", existingPost.id);
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });

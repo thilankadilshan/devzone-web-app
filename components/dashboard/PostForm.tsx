@@ -1,10 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import TipTapEditor from "./TipTapEditor";
 import styles from "@/styles/PostForm.module.css";
+
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
 
 interface PostFormData {
   id?: string;
@@ -20,6 +26,7 @@ interface PostFormData {
   published: boolean;
   featured: boolean;
   canonical_url: string;
+  category_ids: string[];
 }
 
 interface PostFormProps {
@@ -57,6 +64,7 @@ function calculateSEOScore(data: PostFormData): {
     data.meta_description.length >= 120 && data.meta_description.length <= 160,
     data.tags.length >= 2,
     data.cover_image.length > 0,
+    data.category_ids.length > 0,
   ];
 
   score = (checks.filter(Boolean).length / checks.length) * 100;
@@ -75,6 +83,8 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
   const [isSaving, setIsSaving] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [tagInput, setTagInput] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
 
   const [form, setForm] = useState<PostFormData>({
     title: "",
@@ -89,8 +99,20 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
     published: false,
     featured: false,
     canonical_url: "",
+    category_ids: [],
     ...initialData,
   });
+
+  // Fetch categories on mount
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.categories) setCategories(data.categories);
+      })
+      .catch(console.error)
+      .finally(() => setCategoriesLoading(false));
+  }, []);
 
   const seoScore = calculateSEOScore(form);
 
@@ -124,6 +146,22 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
 
   const removeTag = (tag: string) => {
     setForm((prev) => ({ ...prev, tags: prev.tags.filter((t) => t !== tag) }));
+  };
+
+  const toggleCategory = (categoryId: string) => {
+    setForm((prev) => {
+      const hasCategory = prev.category_ids.includes(categoryId);
+      if (hasCategory) {
+        return {
+          ...prev,
+          category_ids: prev.category_ids.filter((id) => id !== categoryId),
+        };
+      }
+      return {
+        ...prev,
+        category_ids: [...prev.category_ids, categoryId],
+      };
+    });
   };
 
   // Upload cover image to Supabase Storage (direct is fine for storage)
@@ -476,6 +514,106 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
                 <div className={styles.toggleKnob} />
               </button>
             </div>
+          </div>
+
+          {/* Categories */}
+          <div className={styles.sidebarCard}>
+            <h3>Categories</h3>
+            {categoriesLoading ? (
+              <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                Loading categories...
+              </p>
+            ) : categories.length === 0 ? (
+              <p style={{ color: "var(--text-muted)", fontSize: "0.85rem" }}>
+                No categories yet.{" "}
+                <a
+                  href="/dashboard/categories"
+                  style={{ color: "var(--accent)", textDecoration: "none" }}
+                >
+                  Create one
+                </a>
+              </p>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "0.375rem",
+                }}
+              >
+                {categories.map((cat) => {
+                  const isSelected = form.category_ids.includes(cat.id);
+                  return (
+                    <button
+                      key={cat.id}
+                      type="button"
+                      onClick={() => toggleCategory(cat.id)}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                        padding: "0.5rem 0.75rem",
+                        background: isSelected
+                          ? "rgba(229, 9, 20, 0.12)"
+                          : "rgba(255, 255, 255, 0.03)",
+                        border: `1px solid ${isSelected ? "rgba(229, 9, 20, 0.3)" : "rgba(255, 255, 255, 0.06)"}`,
+                        borderRadius: "6px",
+                        color: isSelected
+                          ? "var(--text-main)"
+                          : "var(--text-muted)",
+                        fontSize: "0.85rem",
+                        cursor: "pointer",
+                        transition: "all 0.2s ease",
+                        textAlign: "left",
+                      }}
+                    >
+                      <span
+                        style={{
+                          width: "16px",
+                          height: "16px",
+                          borderRadius: "4px",
+                          border: `1px solid ${isSelected ? "var(--accent)" : "rgba(255, 255, 255, 0.15)"}`,
+                          background: isSelected
+                            ? "var(--accent)"
+                            : "transparent",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {isSelected && (
+                          <svg
+                            width="10"
+                            height="10"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="white"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        )}
+                      </span>
+                      {cat.name}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+            {form.category_ids.length > 0 && (
+              <p
+                style={{
+                  color: "var(--text-muted)",
+                  fontSize: "0.75rem",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {form.category_ids.length} selected
+              </p>
+            )}
           </div>
 
           {/* Meta Tags */}

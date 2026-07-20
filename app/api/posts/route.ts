@@ -17,19 +17,32 @@ export async function GET(request: Request) {
 
   let query = supabase
     .from("posts")
-    .select("*")
+    .select(
+      `*,
+      categories:post_categories(
+        category:categories(id, name, slug)
+      )`,
+      { count: "exact" },
+    )
     .order("created_at", { ascending: false });
 
   if (published === "true") query = query.eq("published", true);
   if (published === "false") query = query.eq("published", false);
 
-  const { data, error } = await query;
+  const { data, error, count } = await query;
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
-  return NextResponse.json({ posts: data });
+  // Flatten nested category data
+  const posts = (data || []).map((post: any) => ({
+    ...post,
+    categories:
+      post.categories?.map((c: any) => c.category).filter(Boolean) || [],
+  }));
+
+  return NextResponse.json({ posts, count });
 }
 
 // POST /api/posts — create post
@@ -44,16 +57,34 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
+  const { category_ids, ...postData } = body;
 
-  const { data, error } = await supabase
+  // Insert post first
+  const { data: post, error: postError } = await supabase
     .from("posts")
-    .insert([body])
+    .insert([postData])
     .select()
     .single();
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (postError) {
+    return NextResponse.json({ error: postError.message }, { status: 500 });
   }
 
-  return NextResponse.json({ post: data }, { status: 201 });
+  // Insert category relations if provided
+  if (category_ids && category_ids.length > 0 && post) {
+    const junctionData = category_ids.map((catId: string) => ({
+      post_id: post.id,
+      category_id: catId,
+    }));
+
+    const { error: junctionError } = await supabase
+      .from("post_categories")
+      .insert(junctionData);
+
+    if (junctionError) {
+      console.error("Category relation error:", junctionError);
+    }
+  }
+
+  return NextResponse.json({ post }, { status: 201 });
 }

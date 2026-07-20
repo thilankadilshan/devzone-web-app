@@ -20,6 +20,10 @@ export default async function DashboardPage() {
     .select("*", { count: "exact", head: true })
     .eq("published", false);
 
+  const { count: categoriesCount } = await supabase
+    .from("categories")
+    .select("*", { count: "exact", head: true });
+
   const { data: viewsData } = await supabase.from("posts").select("views");
 
   const totalViews =
@@ -43,6 +47,7 @@ export default async function DashboardPage() {
         totalViews={totalViews}
         publishedCount={publishedCount || 0}
         draftCount={draftCount || 0}
+        categoriesCount={categoriesCount || 0}
       />
 
       <div className={styles.section}>

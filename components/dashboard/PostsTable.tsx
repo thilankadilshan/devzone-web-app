@@ -6,6 +6,12 @@ import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import styles from "@/styles/Dashboard.module.css";
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 interface Post {
   id: string;
   title: string;
@@ -19,6 +25,7 @@ interface Post {
   views: number | null;
   tags: string[] | null;
   cover_image: string | null;
+  categories?: Category[] | null;
 }
 
 interface PostsTableProps {
@@ -165,6 +172,22 @@ export default function PostsTable({
                     <div className={styles.postMeta}>
                       <span className={styles.postTitle}>{post.title}</span>
                       <span className={styles.postSlug}>/{post.slug}</span>
+                      {post.categories && post.categories.length > 0 && (
+                        <div className={styles.postTags}>
+                          {post.categories.map((cat) => (
+                            <span
+                              key={cat.id}
+                              className={styles.tag}
+                              style={{
+                                background: "rgba(255, 255, 255, 0.06)",
+                                color: "var(--text-muted)",
+                              }}
+                            >
+                              {cat.name}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                       {post.tags && post.tags.length > 0 && (
                         <div className={styles.postTags}>
                           {post.tags.slice(0, 3).map((tag) => (

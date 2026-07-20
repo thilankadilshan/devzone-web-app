@@ -18,7 +18,7 @@ export default function LoginForm() {
     setLoading(true);
     setError("");
 
-    const { error: authError } = await supabase.auth.signInWithPassword({
+    const { data, error: authError } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
@@ -29,8 +29,9 @@ export default function LoginForm() {
       return;
     }
 
-    router.push("/dashboard");
-    router.refresh();
+    // Force full page reload so middleware sets cookies properly
+    // This is the KEY fix — router.push() doesn't sync cookies
+    window.location.href = "/dashboard";
   };
 
   return (

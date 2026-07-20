@@ -346,3 +346,511 @@
     font-size: 1.75rem;
   }
 }
+
+/* ============================================
+   POSTS LIST - TOOLBAR
+   ============================================ */
+
+.postsToolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.searchInputWrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 0.625rem 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.searchInputWrapper:focus-within {
+  border-color: var(--accent);
+}
+
+.searchInputWrapper svg {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  outline: none;
+  min-width: 0;
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+.statusSelect {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  padding: 0.625rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.statusSelect:focus {
+  border-color: var(--accent);
+}
+
+.searchBtn {
+  padding: 0.625rem 1.25rem;
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.searchBtn:hover:not(:disabled) {
+  box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.searchBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.postsCount {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   POSTS TABLE
+   ============================================ */
+
+.tableWrapper {
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.postsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.postsTable thead {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.postsTable th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.postsTable td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  vertical-align: middle;
+}
+
+.postsTable tbody tr {
+  transition: background 0.2s ease;
+}
+
+.postsTable tbody tr:hover {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.draftRow {
+  opacity: 0.7;
+}
+
+/* Post Cell */
+.postCell {
+  min-width: 300px;
+}
+
+.postInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.postThumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.postMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.postTitle {
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.postSlug {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.postTags {
+  display: flex;
+  gap: 0.375rem;
+  flex-wrap: wrap;
+}
+
+.tag {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(229, 9, 20, 0.1);
+  color: var(--accent);
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+/* Status Badges */
+.statusBadges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  align-items: flex-start;
+}
+
+.statusBadge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.02em;
+}
+
+.published {
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+}
+
+.draft {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-muted);
+}
+
+.featured {
+  background: var(--accent);
+  color: white;
+}
+
+.featureBtn {
+  background: transparent;
+  border: 1px solid rgba(229, 9, 20, 0.3);
+  color: var(--accent);
+}
+
+.featureBtn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Views & Date */
+.viewsCell {
+  font-weight: 600;
+  color: var(--text-main);
+  font-variant-numeric: tabular-nums;
+}
+
+.dateCell {
+  white-space: nowrap;
+}
+
+.dateInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.dateLabel {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Action Buttons */
+.actionButtons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionBtn {
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.actionBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+}
+
+.deleteBtn:hover {
+  background: rgba(229, 9, 20, 0.15);
+  color: var(--accent);
+  border-color: rgba(229, 9, 20, 0.3);
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   PAGINATION
+   ============================================ */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.pageBtn {
+  padding: 0.5rem 1.25rem;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--text-main);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pageBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pageInfo {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ============================================
+   EMPTY STATE
+   ============================================ */
+
+.emptyState {
+  padding: 4rem 2rem;
+  background: var(--bg-secondary);
+  border: 1px dashed rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.emptyState p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================
+   RESPONSIVE - POSTS TABLE
+   ============================================ */
+
+@media (max-width: 1024px) {
+  .postsToolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchBar {
+    width: 100%;
+  }
+
+  .toolbarRight {
+    justify-content: space-between;
+  }
+
+  .postsTable th:nth-child(3),
+  .postsTable td:nth-child(3),
+  .postsTable th:nth-child(4),
+  .postsTable td:nth-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .postsTable th:nth-child(3),
+  .postsTable td:nth-child(3),
+  .postsTable th:nth-child(4),
+  .postsTable td:nth-child(4) {
+    display: none;
+  }
+
+  .postCell {
+    min-width: 200px;
+  }
+
+  .postThumb {
+    width: 36px;
+    height: 36px;
+  }
+
+  .statusBadges {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+/* ============================================
+   RECENT POSTS LIST
+   ============================================ */
+
+.recentPostsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  background: var(--bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.recentPostItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background 0.2s ease;
+}
+
+.recentPostItem:last-child {
+  border-bottom: none;
+}
+
+.recentPostItem:hover {
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.recentPostInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.recentPostTitle {
+  font-weight: 600;
+  color: var(--text-main);
+  text-decoration: none;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.2s ease;
+}
+
+.recentPostTitle:hover {
+  color: var(--accent);
+}
+
+.recentPostMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.recentPostDate,
+.recentPostViews {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.recentPostActions {
+  display: flex;
+  gap: 0.375rem;
+  flex-shrink: 0;
+}

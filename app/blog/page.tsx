@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { getPublishedPosts, formatDate } from "@/lib/blog";
+import { getPublishedPosts, getCategories, formatDate } from "@/lib/blog";
 import styles from "@/styles/Blog.module.css";
+import SearchBar from "@/components/blog/SearchBar";
+import CategoryFilter from "@/components/blog/CategoryFilter";
 
 export const metadata: Metadata = {
   title: "Blog | Thilanka Dilshan",
@@ -41,8 +43,44 @@ export const metadata: Metadata = {
 
 export const revalidate = 3600;
 
-export default async function BlogPage() {
-  const posts = await getPublishedPosts();
+interface Category {
+  slug: string;
+  name: string;
+  description: string | null;
+}
+
+interface PostWithCategories {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  cover_image: string | null;
+  published: boolean;
+  tags: string[];
+  views: number;
+  reading_time: number | null;
+  featured: boolean;
+  published_at: string | null;
+  created_at: string;
+  author_name: string;
+  author_image: string | null;
+  categories?: { name: string; slug: string }[];
+}
+
+export default async function BlogPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; category?: string }>;
+}) {
+  const { q, category } = await searchParams;
+  const [posts, categories] = await Promise.all([
+    getPublishedPosts({ searchQuery: q, categorySlug: category }),
+    getCategories(),
+  ]);
+
+  const activeCategoryName = category
+    ? categories.find((c: Category) => c.slug === category)?.name || category
+    : "";
 
   return (
     <main className={styles.blogPage}>
@@ -56,6 +94,35 @@ export default async function BlogPage() {
             and the craft of building scalable software. Written by a Software
             Engineer at Sharper Labs.
           </p>
+
+          {/* Search + Category Filter */}
+          <div className={styles.blogControls}>
+            <SearchBar initialQuery={q || ""} />
+            <CategoryFilter
+              categories={categories}
+              activeCategory={category || ""}
+            />
+          </div>
+
+          {/* Active Filters */}
+          {(q || category) && (
+            <div className={styles.activeFilters}>
+              {q && (
+                <span className={styles.activeFilterTag}>
+                  Search: &quot;{q}&quot;
+                </span>
+              )}
+              {category && (
+                <span className={styles.activeFilterTag}>
+                  Category: {activeCategoryName}
+                </span>
+              )}
+              <Link href="/blog" className={styles.clearFilters}>
+                Clear all
+              </Link>
+            </div>
+          )}
+
           <div className={styles.blogStats}>
             <span>
               <svg
@@ -111,14 +178,17 @@ export default async function BlogPage() {
               <line x1="16" y1="17" x2="8" y2="17" />
               <polyline points="10 9 9 9 8 9" />
             </svg>
-            <h3>No articles yet</h3>
+            <h3>
+              {q || category ? "No matching articles" : "No articles yet"}
+            </h3>
             <p>
-              Check back soon for tutorials and insights on modern web
-              development.
+              {q || category
+                ? "Try adjusting your search or filter."
+                : "Check back soon for tutorials and insights on modern web development."}
             </p>
           </div>
         ) : (
-          posts.map((post) => (
+          posts.map((post: PostWithCategories) => (
             <Link
               key={post.id}
               href={`/blog/${post.slug}`}

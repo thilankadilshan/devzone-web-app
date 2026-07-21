@@ -12,6 +12,7 @@ import {
   calculateReadingTime,
 } from "@/lib/blog";
 import styles from "@/styles/BlogPost.module.css";
+import ViewTracker from "@/components/blog/ViewTracker";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -143,6 +144,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <main className={styles.postPage}>
+      <ViewTracker slug={slug} />
+
       <Script
         id="json-ld"
         type="application/ld+json"
@@ -277,9 +280,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {post.tags && post.tags.length > 0 && (
         <div className={styles.articleTags}>
           {post.tags.map((tag) => (
-            <span key={tag} className={styles.articleTag}>
+            <Link
+              key={tag}
+              href={`/blog/tag/${encodeURIComponent(tag)}`}
+              className={styles.articleTag}
+            >
               #{tag}
-            </span>
+            </Link>
           ))}
         </div>
       )}

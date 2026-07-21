@@ -8,7 +8,6 @@ export async function POST(
   const { slug } = await params;
   const supabase = await createClient();
 
-  // Get post ID from slug
   const { data: post } = await supabase
     .from("posts")
     .select("id")
@@ -19,7 +18,6 @@ export async function POST(
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
   }
 
-  // Increment views using RPC
   const { error } = await supabase.rpc("increment_post_views", {
     post_id: post.id,
   });

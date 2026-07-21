@@ -12,12 +12,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1.0,
     },
     {
-      url: `${siteUrl}/about`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.95,
-    },
-    {
       url: `${siteUrl}/projects`,
       lastModified: new Date(),
       changeFrequency: "monthly",
@@ -28,12 +22,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
-    },
-    {
-      url: `${siteUrl}/singer`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.85,
     },
     {
       url: `${siteUrl}/contact`,

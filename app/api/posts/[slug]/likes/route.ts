@@ -43,7 +43,6 @@ export async function POST(
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
   }
 
-  // Get IP hash for deduplication (simplified)
   const ip = request.headers.get("x-forwarded-for") || "unknown";
   const ipHash = await crypto.subtle
     .digest("SHA-256", new TextEncoder().encode(ip))
@@ -53,7 +52,6 @@ export async function POST(
         .join(""),
     );
 
-  // Check if already liked
   const { data: existing } = await supabase
     .from("post_likes")
     .select("id")
@@ -62,11 +60,9 @@ export async function POST(
     .single();
 
   if (existing) {
-    // Unlike
     await supabase.from("post_likes").delete().eq("id", existing.id);
     return NextResponse.json({ liked: false });
   } else {
-    // Like
     await supabase.from("post_likes").insert({
       post_id: post.id,
       ip_hash: ipHash,

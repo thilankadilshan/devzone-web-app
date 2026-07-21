@@ -118,19 +118,24 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-96x96.png", type: "image/png", sizes: "96x96" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
     ],
-    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
     other: [
       {
         rel: "mask-icon",
-        url: "/icon.svg",
+        url: "/favicon.svg",
         color: "#e50914",
       },
     ],
   },
 
-  manifest: "/manifest.json",
+  manifest: "/site.webmanifest",
 
   verification: {
     google: "DZ874L8ryzcn2OxoonqlnVYq5vl54KPsiAxGD82hYcU",
@@ -167,6 +172,8 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
         <link rel="dns-prefetch" href="https://skillicons.dev" />
         <link rel="dns-prefetch" href="https://www.youtube.com" />
+        <link rel="icon" href="/favicon.ico?v=2" sizes="any" />
+        <link rel="icon" href="/favicon.svg?v=2" type="image/svg+xml" />
         <PersonSchema />
         <WebSiteSchema />
         <FAQSchema />

@@ -10,11 +10,6 @@ export default function Home() {
   return (
     <>
       <ProfilePageSchema />
-      {/* Hidden H1 for SEO - visible to search engines, hidden from users */}
-      <h1 className="sr-only">
-        Thilanka Dilshan - Software Engineer, Content Creator & Singer from Sri
-        Lanka
-      </h1>
       <Hero />
       <About />
       <TechStack />

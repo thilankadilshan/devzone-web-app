@@ -1,52 +1,28 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { getPublishedPosts, getCategories, formatDate } from "@/lib/blog";
+import { getPublishedPostsStatic, formatDate } from "@/lib/blog";
 import styles from "@/styles/Blog.module.css";
-import SearchBar from "@/components/blog/SearchBar";
-import CategoryFilter from "@/components/blog/CategoryFilter";
-
-export const metadata: Metadata = {
-  title: "Blog | Thilanka Dilshan",
-  description:
-    "Read articles by Thilanka Dilshan on MERN stack, TypeScript, Next.js, Laravel, Prisma, and modern web development. Software Engineer at Sharper Labs.",
-  keywords: [
-    "Thilanka Dilshan blog",
-    "MERN stack tutorials",
-    "Next.js tutorials",
-    "TypeScript guides",
-    "Laravel development",
-    "Prisma ORM",
-    "web development blog",
-    "Sri Lankan developer blog",
-    "software engineering articles",
-  ],
-  alternates: {
-    canonical: "/blog",
-  },
-  openGraph: {
-    type: "website",
-    url: "https://thilankadilshan.vercel.app/blog",
-    title: "Blog | Thilanka Dilshan",
-    description:
-      "Articles on MERN stack, TypeScript, Next.js, Laravel, and modern web development by Thilanka Dilshan.",
-    images: [
-      {
-        url: "/images/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Thilanka Dilshan Blog",
-      },
-    ],
-  },
-};
 
 export const revalidate = 3600;
 
-interface Category {
-  slug: string;
-  name: string;
-  description: string | null;
+export async function generateStaticParams() {
+  const posts = await getPublishedPostsStatic();
+  const allTags = [...new Set(posts.flatMap((p) => p.tags))];
+  return allTags.map((tag) => ({ tag: encodeURIComponent(tag) }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ tag: string }>;
+}): Promise<Metadata> {
+  const { tag } = await params;
+  const decodedTag = decodeURIComponent(tag);
+  return {
+    title: `Posts tagged #${decodedTag} | Thilanka Dilshan`,
+    description: `Articles tagged with #${decodedTag} by Thilanka Dilshan.`,
+  };
 }
 
 interface PostWithCategories {
@@ -67,100 +43,28 @@ interface PostWithCategories {
   categories?: { name: string; slug: string }[];
 }
 
-export default async function BlogPage({
-  searchParams,
+export default async function TagPage({
+  params,
 }: {
-  searchParams: Promise<{ q?: string; category?: string }>;
+  params: Promise<{ tag: string }>;
 }) {
-  const { q, category } = await searchParams;
-  const [posts, categories] = await Promise.all([
-    getPublishedPosts({ searchQuery: q, categorySlug: category }),
-    getCategories(),
-  ]);
-
-  const activeCategoryName = category
-    ? categories.find((c: Category) => c.slug === category)?.name || category
-    : "";
+  const { tag } = await params;
+  const decodedTag = decodeURIComponent(tag);
+  const allPosts = await getPublishedPostsStatic();
+  const posts = allPosts.filter((p: PostWithCategories) =>
+    p.tags.includes(decodedTag),
+  );
 
   return (
     <main className={styles.blogPage}>
-      {/* Hero Section */}
       <section className={styles.blogHero}>
         <div className={styles.blogHeroInner}>
-          <span className={styles.blogLabel}>Articles & Tutorials</span>
-          <h1 className={styles.blogTitle}>Blog</h1>
-          <p className={styles.blogDescription}>
-            Deep dives into MERN stack, TypeScript, Next.js, Laravel, Prisma,
-            and the craft of building scalable software. Written by a Software
-            Engineer at Sharper Labs.
-          </p>
-
-          {/* Search + Category Filter */}
-          <div className={styles.blogControls}>
-            <SearchBar initialQuery={q || ""} />
-            <CategoryFilter
-              categories={categories}
-              activeCategory={category || ""}
-            />
-          </div>
-
-          {/* Active Filters */}
-          {(q || category) && (
-            <div className={styles.activeFilters}>
-              {q && (
-                <span className={styles.activeFilterTag}>
-                  Search: &quot;{q}&quot;
-                </span>
-              )}
-              {category && (
-                <span className={styles.activeFilterTag}>
-                  Category: {activeCategoryName}
-                </span>
-              )}
-              <Link href="/blog" className={styles.clearFilters}>
-                Clear all
-              </Link>
-            </div>
-          )}
-
-          <div className={styles.blogStats}>
-            <span>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                <polyline points="14 2 14 8 20 8" />
-                <line x1="16" y1="13" x2="8" y2="13" />
-                <line x1="16" y1="17" x2="8" y2="17" />
-                <polyline points="10 9 9 9 8 9" />
-              </svg>
-              {posts.length} Articles
-            </span>
-            <span>&middot;</span>
-            <span>
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-              Updated regularly
-            </span>
-          </div>
+          <span className={styles.blogLabel}>Tag</span>
+          <h1 className={styles.blogTitle}>#{decodedTag}</h1>
+          <p className={styles.blogDescription}>{posts.length} articles</p>
         </div>
       </section>
 
-      {/* Posts Grid */}
       <section className={styles.postsGrid}>
         {posts.length === 0 ? (
           <div className={styles.emptyState}>
@@ -178,14 +82,8 @@ export default async function BlogPage({
               <line x1="16" y1="17" x2="8" y2="17" />
               <polyline points="10 9 9 9 8 9" />
             </svg>
-            <h3>
-              {q || category ? "No matching articles" : "No articles yet"}
-            </h3>
-            <p>
-              {q || category
-                ? "Try adjusting your search or filter."
-                : "Check back soon for tutorials and insights on modern web development."}
-            </p>
+            <h3>No articles found</h3>
+            <p>No posts tagged with #{decodedTag} yet.</p>
           </div>
         ) : (
           posts.map((post: PostWithCategories) => (

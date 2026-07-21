@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "../styles/globals.css";
 import ClientLayout from "../components/layout/ClientLayout";
+import PersonSchema from "../components/seo/PersonSchema";
+import WebSiteSchema from "../components/seo/WebSiteSchema";
+import FAQSchema from "../components/seo/FAQSchema";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,13 +20,26 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "Thilanka Dilshan | Software Engineer & Full-Stack Developer",
+    default: "Thilanka Dilshan | Software Engineer, Content Creator & Singer",
     template: "%s | Thilanka Dilshan",
   },
   description:
-    "Thilanka Dilshan is a 23-year-old Software Engineer from Sri Lanka specializing in MERN stack, TypeScript, Laravel, and Prisma. Building scalable applications at Sharper Labs. Founder of Dilshan DevZone on YouTube.",
+    "Thilanka Dilshan is a 23-year-old Software Engineer from Nochchiyagama, Sri Lanka, Content Creator on YouTube/TikTok/Instagram, and Singer. Specializing in MERN stack, TypeScript, Laravel, and Prisma. Building scalable applications at Sharper Labs. Founder of Dilshan DevZone.",
   keywords: [
     "Thilanka Dilshan",
+    "Thilanka Dilshan singer",
+    "Thilanka Dilshan content creator",
+    "Thilanka Dilshan YouTube",
+    "Thilanka Dilshan TikTok",
+    "Thilanka Dilshan Instagram",
+    "Thilanka Dilshan Facebook",
+    "Thilanka Dilshan Sri Lanka",
+    "Thilanka Dilshan Nochchiyagama",
+    "Thilanka Dilshan software engineer",
+    "Thilanka Dilshan developer",
+    "Thilanka Dilshan portfolio",
+    "Thilanka Dilshan blog",
+    "Thilanka Dilshan Dilshan DevZone",
     "Software Engineer Sri Lanka",
     "MERN Stack Developer",
     "Next.js Developer",
@@ -39,6 +55,15 @@ export const metadata: Metadata = {
     "React Developer",
     "Node.js Developer",
     "MongoDB Developer",
+    "Sri Lankan singer",
+    "Sri Lankan content creator",
+    "Sri Lankan YouTuber",
+    "Sri Lankan software engineer",
+    "web developer Sri Lanka",
+    "full stack developer Sri Lanka",
+    "Nochchiyagama developer",
+    "Anuradhapura developer",
+    "Sri Lankan tech YouTuber",
   ],
   authors: [
     { name: "Thilanka Dilshan", url: "https://thilankadilshan.vercel.app" },
@@ -68,24 +93,24 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://thilankadilshan.vercel.app",
     siteName: "Thilanka Dilshan",
-    title: "Thilanka Dilshan | Software Engineer & Full-Stack Developer",
+    title: "Thilanka Dilshan | Software Engineer, Content Creator & Singer",
     description:
-      "23-year-old Software Engineer from Sri Lanka. MERN Stack, TypeScript, Laravel, Prisma. Building at Sharper Labs. YouTube: Dilshan DevZone.",
+      "23-year-old Software Engineer from Nochchiyagama, Sri Lanka. MERN Stack, TypeScript, Laravel, Prisma. Content Creator on YouTube, TikTok, Instagram. Singer. Building at Sharper Labs.",
     images: [
       {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Thilanka Dilshan - Software Engineer Portfolio",
+        alt: "Thilanka Dilshan - Software Engineer, Content Creator & Singer from Sri Lanka",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Thilanka Dilshan | Software Engineer & Full-Stack Developer",
+    title: "Thilanka Dilshan | Software Engineer, Content Creator & Singer",
     description:
-      "23-year-old Software Engineer from Sri Lanka. MERN Stack, TypeScript, Laravel. Building at Sharper Labs.",
+      "23-year-old Software Engineer from Sri Lanka. MERN Stack, TypeScript, Laravel. Content Creator & Singer. Building at Sharper Labs.",
     images: ["/images/og-image.jpg"],
     creator: "@thilankadilshan",
   },
@@ -108,7 +133,7 @@ export const metadata: Metadata = {
   manifest: "/manifest.json",
 
   verification: {
-    google: "YOUR_GOOGLE_SEARCH_CONSOLE_VERIFICATION_CODE",
+    google: "DZ874L8ryzcn2OxoonqlnVYq5vl54KPsiAxGD82hYcU",
   },
 
   appleWebApp: {
@@ -128,6 +153,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={inter.variable}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="dns-prefetch"
+          href="https://kzzemykpkxrhehuyntew.supabase.co"
+        />
+        <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
+        <link rel="dns-prefetch" href="https://skillicons.dev" />
+        <link rel="dns-prefetch" href="https://www.youtube.com" />
+        <PersonSchema />
+        <WebSiteSchema />
+        <FAQSchema />
+      </head>
       <body className={inter.className}>
         <ClientLayout>{children}</ClientLayout>
       </body>

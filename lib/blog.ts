@@ -254,3 +254,26 @@ export function formatDateISO(dateString: string | null): string {
   if (!dateString) return "";
   return new Date(dateString).toISOString();
 }
+
+export interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  description: string | null;
+}
+
+export async function getCategories(): Promise<Category[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("categories")
+    .select("id, name, slug, description")
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+
+  return (data || []) as Category[];
+}

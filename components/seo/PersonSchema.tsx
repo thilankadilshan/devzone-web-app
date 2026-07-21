@@ -3,13 +3,14 @@ export default function PersonSchema() {
     "@context": "https://schema.org",
     "@type": "Person",
     name: "Thilanka Dilshan",
-    alternateName: "Dilshan DevZone",
+    alternateName: ["Dilshan DevZone", "TD"],
     url: "https://thilankadilshan.vercel.app",
     image: "https://thilankadilshan.vercel.app/images/profile.jpg",
     jobTitle: "Software Engineer",
     worksFor: {
       "@type": "Organization",
       name: "Sharper Labs",
+      url: "https://sharperlabs.com",
     },
     alumniOf: [
       {
@@ -34,17 +35,38 @@ export default function PersonSchema() {
       "MongoDB",
       "Software Engineering",
       "Full-Stack Development",
+      "Content Creation",
+      "YouTube Content Creation",
+      "Social Media Marketing",
+      "Singing",
+      "Music Production",
     ],
     sameAs: [
-      "https://www.linkedin.com/in/thilankadilshan",
+      "https://www.linkedin.com/in/thilanka-dilshan",
       "https://github.com/thilankadilshan",
       "https://www.youtube.com/@DilshanDevZone",
-      "https://twitter.com/thilankadilshan",
+      "https://x.com/thilankadshan",
+      "https://www.tiktok.com/@thilanka.dilshan",
+      "https://www.instagram.com/thilankadilshann",
+      "https://facebook.com/thilankadilshann",
+      "https://thilankadilshan.vercel.app",
     ],
     nationality: {
       "@type": "Country",
       name: "Sri Lanka",
     },
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "Sri Lanka",
+      addressLocality: "Nochchiyagama",
+      addressRegion: "North Central Province",
+    },
+    birthPlace: {
+      "@type": "Place",
+      name: "Sri Lanka",
+    },
+    gender: "Male",
+    email: "mailto:thilanka.cv@gmail.com",
   };
 
   return (

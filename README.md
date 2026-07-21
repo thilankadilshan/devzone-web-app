@@ -27,7 +27,9 @@ The project follows a clean, highly modular architecture to support heavy animat
 └── utils/ # Helper functions and constants
 
 ## 👨‍💻 About the Developer
-
+# Thilanka Dilshan — Portfolio
+Software Engineer | Content Creator | Singer from Sri Lanka
+🌐 [thilankadilshan.vercel.app](https://thilankadilshan.vercel.app)
 Built by **Thilanka Dilshan**, a Software Engineer specializing in modern full-stack development, complex system architecture, and high-performance UI/UX.
 
 ---

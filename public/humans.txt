@@ -1,0 +1,22 @@
+/* TEAM */
+Developer: Thilanka Dilshan
+Role: Software Engineer, Content Creator, Singer
+Location: Nochchiyagama, Sri Lanka
+Website: https://thilankadilshan.vercel.app
+GitHub: https://github.com/thilankadilshan
+LinkedIn: https://www.linkedin.com/in/thilanka-dilshan
+Twitter: https://x.com/thilankadshan
+
+/* THANKS */
+Sharper Labs: https://sharperlabs.com
+NSBM Green University: https://www.nsbm.ac.lk
+University of Plymouth: https://www.plymouth.ac.uk
+
+/* SITE */
+Last update: 2026-07-21
+Language: English
+Doctype: HTML5
+Framework: Next.js 16
+Styling: CSS Modules
+Animations: GSAP, Framer Motion
+3D: React Three Fiber

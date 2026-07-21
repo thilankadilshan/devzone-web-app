@@ -223,13 +223,46 @@
 }
 
 /* Post Grid */
+/* Post Grid — 4 cards per row */
 .postsGrid {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 0 2rem 6rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1200px) {
+  .postsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .postsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .postsGrid {
+    grid-template-columns: 1fr;
+    padding: 0 1rem 4rem;
+  }
+
+  .blogHero {
+    padding: 6rem 0 3rem;
+  }
+
+  .blogControls {
+    padding: 0 1rem;
+    flex-direction: column;
+  }
+
+  .searchBox {
+    min-width: 100%;
+  }
 }
 
 @media (max-width: 768px) {
@@ -271,7 +304,7 @@
 .postCardImage {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  height: 180px;
   overflow: hidden;
   background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
 }

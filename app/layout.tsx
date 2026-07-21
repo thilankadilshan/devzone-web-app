@@ -170,6 +170,24 @@ export default function RootLayout({
         <PersonSchema />
         <WebSiteSchema />
         <FAQSchema />
+        {/* Google Analytics 4 */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-3TZZ6TKCVK"
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-3TZZ6TKCVK', {
+                page_title: document.title,
+                send_page_view: true
+              });
+            `,
+          }}
+        />
       </head>
       <body className={inter.className}>
         <ClientLayout>{children}</ClientLayout>

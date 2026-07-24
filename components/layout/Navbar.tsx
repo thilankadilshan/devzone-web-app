@@ -2,13 +2,18 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import styles from "../../styles/Navbar.module.css";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const navLinks = [
   { href: "/", label: "Home" },
-  { href: "/#about", label: "About" },
-  { href: "/#tech", label: "Tech" },
-  { href: "/projects", label: "Projects", reload: true },
+  { href: "/about", label: "About" },
+  { href: "/tech", label: "Tech" },
+  { href: "/projects", label: "Projects" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
 ];
@@ -16,6 +21,8 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,10 +32,40 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (pathname === href) {
+      e.preventDefault();
+      setMenuOpen(false);
+      return;
+    }
+
+    e.preventDefault();
+    setMenuOpen(false);
+
+    // FIX: Preemptively kill all GSAP ScrollTriggers and pin spacers before page swapping
+    ScrollTrigger.getAll().forEach((t) => t.kill());
+    ScrollTrigger.clearMatchMedia();
+    gsap.globalTimeline.clear();
+
+    // Broadcast navigation start so ClientLayout fires preloader instantly
+    window.dispatchEvent(new CustomEvent("start-preloader"));
+
+    setTimeout(() => {
+      router.push(href);
+    }, 200);
+  };
+
   return (
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
       <div className={styles.navInner}>
-        <Link href="/" className={styles.logo}>
+        <Link
+          href="/"
+          className={styles.logo}
+          onClick={(e) => handleNavClick(e, "/")}
+        >
           TD
         </Link>
 
@@ -43,27 +80,20 @@ export default function Navbar() {
         </button>
 
         <ul className={`${styles.links} ${menuOpen ? styles.open : ""}`}>
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              {link.reload ? (
-                <a
-                  href={link.href}
-                  className={styles.link}
-                  onClick={() => setMenuOpen(false)}
-                >
-                  {link.label}
-                </a>
-              ) : (
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href;
+            return (
+              <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={styles.link}
-                  onClick={() => setMenuOpen(false)}
+                  className={`${styles.link} ${isActive ? styles.active : ""}`}
+                  onClick={(e) => handleNavClick(e, link.href)}
                 >
                   {link.label}
                 </Link>
-              )}
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </nav>

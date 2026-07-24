@@ -72,8 +72,8 @@
   position: relative;
   z-index: 1;
   display: grid;
-  /* Auto-fit gracefully handles 5 cards by wrapping them dynamically */
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  /* Strictly force 3 cards per row */
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   width: 100%;
   max-width: 1200px;
@@ -154,7 +154,7 @@
   opacity: 0.5;
 }
 
-/* Live link icon (Moved inside image wrapper) */
+/* Live link icon */
 
 .cardLiveLink {
   position: absolute;
@@ -187,7 +187,7 @@
   box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
 }
 
-/* Content (Now positioned below the image) */
+/* Content */
 
 .cardContent {
   position: relative;
@@ -201,7 +201,7 @@
 
 .cardNumber {
   position: absolute;
-  top: -2rem; /* Overlaps slightly with the image */
+  top: -2rem;
   right: 1.5rem;
   font-size: 3rem;
   font-weight: 900;
@@ -278,7 +278,9 @@
 
 @media (max-width: 1200px) {
   .grid {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    /* Drop to 2 cards per row on tablets/small laptops */
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 800px;
   }
 }
 
@@ -289,6 +291,7 @@
   }
 
   .grid {
+    /* Drop to 1 card per row on mobile */
     grid-template-columns: 1fr;
     max-width: 420px;
     gap: 1.5rem;

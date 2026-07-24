@@ -51,14 +51,16 @@ export default function ClientLayout({
       return;
     }
 
-    ScrollTrigger.getAll().forEach((t) => t.kill());
+    // FIX: Pass `true` to kill() to revert DOM wrappers and satisfy TypeScript
+    ScrollTrigger.getAll().forEach((t) => t.kill(true));
     ScrollTrigger.clearMatchMedia();
 
     setShowPreloader(true);
     setIsLoaded(false);
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      // FIX: Unmount cleanup using kill(true) as well
+      ScrollTrigger.getAll().forEach((t) => t.kill(true));
     };
   }, [pathname, isDashboard]);
 

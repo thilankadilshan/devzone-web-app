@@ -1,25 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
 export default function SearchBar({ initialQuery }: { initialQuery: string }) {
   const router = useRouter();
   const [query, setQuery] = useState(initialQuery);
+  const isFirstRender = useRef(true);
+
+  // FIX: Real-time search with debounce
+  useEffect(() => {
+    // Skip the first render so it doesn't instantly reload the page on mount
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    // Set a timer to wait 500ms after the user stops typing
+    const delayDebounceFn = setTimeout(() => {
+      if (query.trim()) {
+        router.push(`/blog?q=${encodeURIComponent(query.trim())}`);
+      } else {
+        router.push("/blog");
+      }
+    }, 500);
+
+    // Clean up the timer if the user types again before 500ms is up
+    return () => clearTimeout(delayDebounceFn);
+  }, [query, router]);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (query.trim()) {
-      router.push(`/blog?q=${encodeURIComponent(query.trim())}`);
-    } else {
-      router.push("/blog");
-    }
+    e.preventDefault(); // Prevents page reload if user presses Enter
   };
 
   return (
     <form onSubmit={handleSubmit} style={styles.searchForm}>
       <div style={styles.searchBox}>
         <svg
+          style={styles.searchIcon}
           width="18"
           height="18"
           viewBox="0 0 24 24"
@@ -66,15 +84,25 @@ export default function SearchBar({ initialQuery }: { initialQuery: string }) {
 
 const styles = {
   searchForm: {
+    flex: "1 1 auto",
     width: "100%",
     maxWidth: "500px",
-    margin: "0 auto 1.5rem",
+    margin: 0,
   } as React.CSSProperties,
 
   searchBox: {
     position: "relative" as const,
     display: "flex",
     alignItems: "center",
+  } as React.CSSProperties,
+
+  searchIcon: {
+    position: "absolute" as const,
+    left: "1rem",
+    top: "50%",
+    transform: "translateY(-50%)",
+    color: "#6b6b7b",
+    pointerEvents: "none",
   } as React.CSSProperties,
 
   searchInput: {

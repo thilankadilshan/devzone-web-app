@@ -32,9 +32,12 @@ export default function CategoryFilter({
         onChange={handleChange}
         style={styles.categorySelect}
       >
-        <option value="">All Categories</option>
+        {/* FIX: Forced dark background and light text on the dropdown options */}
+        <option value="" style={styles.option}>
+          All Categories
+        </option>
         {categories.map((cat) => (
-          <option key={cat.slug} value={cat.slug}>
+          <option key={cat.slug} value={cat.slug} style={styles.option}>
             {cat.name}
           </option>
         ))}
@@ -58,6 +61,7 @@ const styles: Record<string, React.CSSProperties> = {
   categoryFilter: {
     position: "relative",
     minWidth: "180px",
+    flexShrink: 0,
   },
   categorySelect: {
     width: "100%",
@@ -72,6 +76,12 @@ const styles: Record<string, React.CSSProperties> = {
     WebkitAppearance: "none",
     transition: "all 0.3s ease",
     outline: "none",
+  },
+  // NEW: Explicit styles for the dropdown items
+  option: {
+    background: "#0f0f13", // Your var(--bg-secondary)
+    color: "#f0f0f5",
+    padding: "10px",
   },
   categoryFilterArrow: {
     position: "absolute",

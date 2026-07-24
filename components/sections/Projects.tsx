@@ -68,13 +68,24 @@ const projects: Project[] = [
     accent: "#ff9f43",
     sceneNumber: "06",
   },
+  {
+    id: "koba-photography",
+    title: "Koba Photography",
+    tagline: "Capturing Pure Moments",
+    description:
+      "A cinematic portfolio for a professional photography studio. Featuring high-resolution galleries, fluid scroll animations, and an elegant visual experience tailored for visual storytelling.",
+    tech: ["Next.js", "Framer Motion", "GSAP", "TypeScript"],
+    liveUrl: "https://kobaphotography.vercel.app/",
+    image: "/images/project-koba.png",
+    accent: "#d4af37", // A luxurious gold accent suitable for photography
+    sceneNumber: "07",
+  },
 ];
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+function ProjectCard({ project }: { project: Project }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const isEven = index % 2 === 0;
 
   useEffect(() => {
     const card = cardRef.current;
@@ -85,7 +96,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     const ctx = gsap.context(() => {
       gsap.fromTo(
         card,
-        { opacity: 0, y: 100, rotateX: isEven ? 8 : -8 },
+        { opacity: 0, y: 100, rotateX: 5 },
         {
           opacity: 1,
           y: 0,
@@ -103,10 +114,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
       gsap.fromTo(
         image,
-        { scale: 1.2, y: 50 },
+        { scale: 1.1, y: 30 },
         {
           scale: 1,
-          y: -50,
+          y: -30,
           ease: "none",
           scrollTrigger: {
             trigger: card,
@@ -137,31 +148,15 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     }, card);
 
     return () => ctx.revert();
-  }, [isEven]);
+  }, []);
 
   return (
     <div
       ref={cardRef}
-      className={`${styles.projectCard} ${isEven ? styles.cardLeft : styles.cardRight}`}
+      className={styles.projectCard}
       style={{ "--project-accent": project.accent } as React.CSSProperties}
     >
       <span className={styles.sceneNumber}>{project.sceneNumber}</span>
-
-      <div className={styles.imageSide}>
-        <div ref={imageRef} className={styles.imageWrapper}>
-          <img
-            src={project.image}
-            alt={`${project.title} - Project by Thilanka Dilshan`}
-            className={styles.projectImage}
-            loading="lazy"
-          />
-          <div className={styles.imageOverlay} />
-          <div
-            className={styles.accentGlow}
-            style={{ backgroundColor: project.accent }}
-          />
-        </div>
-      </div>
 
       <div ref={contentRef} className={styles.contentSide}>
         <span className={`${styles.animateIn} ${styles.projectLabel}`}>
@@ -206,6 +201,22 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             <path d="M7 7h10v10" />
           </svg>
         </a>
+      </div>
+
+      <div className={styles.imageSide}>
+        <div ref={imageRef} className={styles.imageWrapper}>
+          <img
+            src={project.image}
+            alt={`${project.title} - Project by Thilanka Dilshan`}
+            className={styles.projectImage}
+            loading="lazy"
+          />
+          <div className={styles.imageOverlay} />
+          <div
+            className={styles.accentGlow}
+            style={{ backgroundColor: project.accent }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -275,13 +286,13 @@ export default function Projects() {
         <span className={styles.sectionLabel}>The Reel</span>
         <h2 className={styles.heading}>Featured Works</h2>
         <p className={styles.subtitle}>
-          Four projects. Four stories. Built with precision and passion.
+          Five projects. Five stories. Built with precision and passion.
         </p>
       </div>
 
       <div className={styles.projectsContainer}>
-        {projects.map((project, index) => (
-          <ProjectCard key={project.id} project={project} index={index} />
+        {projects.map((project) => (
+          <ProjectCard key={project.id} project={project} />
         ))}
       </div>
     </section>

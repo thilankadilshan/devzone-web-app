@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import styles from "../../styles/Preloader.module.css";
 
 const loadingPhases = [
@@ -10,8 +9,6 @@ const loadingPhases = [
   "Preparing Experience...",
   "Welcome to the Zone.",
 ];
-
-const cinematicEase = [0.76, 0, 0.24, 1];
 
 export default function Preloader({ onComplete }: { onComplete: () => void }) {
   const [phaseIndex, setPhaseIndex] = useState(0);
@@ -31,20 +28,21 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
 
     const phaseInterval = setInterval(() => {
       setPhaseIndex((prev) => (prev + 1) % loadingPhases.length);
-    }, 800);
+    }, 600);
 
     const progressInterval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           clearInterval(phaseInterval);
-          setTimeout(() => setPhase("exiting"), 400);
-          setTimeout(() => setPhase("done"), 1600);
+          setTimeout(() => setPhase("exiting"), 200);
+          // FIX: Symmetrical timing so exit curtains finish right as content fades in
+          setTimeout(() => setPhase("done"), 1000);
           return 100;
         }
-        return prev + Math.random() * 15 + 5;
+        return prev + Math.random() * 20 + 10;
       });
-    }, 200);
+    }, 120);
 
     return () => {
       clearInterval(phaseInterval);
@@ -52,7 +50,6 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
     };
   }, [phase]);
 
-  // Don't render anything if done (let parent unmount us)
   if (phase === "done") return null;
 
   const isExiting = phase === "exiting";
@@ -64,7 +61,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         className={`${styles.curtain} ${styles.curtainTop}`}
         style={{
           transform: isExiting ? "translateY(-100vh)" : "translateY(0)",
-          transition: "transform 1.2s cubic-bezier(0.76, 0, 0.24, 1) 0.2s",
+          transition: "transform 0.8s cubic-bezier(0.76, 0, 0.24, 1)",
         }}
       />
 
@@ -73,7 +70,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         className={`${styles.curtain} ${styles.curtainBottom}`}
         style={{
           transform: isExiting ? "translateY(100vh)" : "translateY(0)",
-          transition: "transform 1.2s cubic-bezier(0.76, 0, 0.24, 1) 0.2s",
+          transition: "transform 0.8s cubic-bezier(0.76, 0, 0.24, 1)",
         }}
       />
 
@@ -82,29 +79,14 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
         className={styles.content}
         style={{
           opacity: isExiting ? 0 : 1,
-          transform: isExiting ? "scale(0.9)" : "scale(1)",
-          transition: "opacity 0.4s ease-out, transform 0.4s ease-out",
+          transform: isExiting ? "scale(0.95)" : "scale(1)",
+          transition: "opacity 0.3s ease-out, transform 0.3s ease-out",
         }}
       >
-        <h1
-          className={styles.logo}
-          style={{
-            opacity: 1,
-            letterSpacing: "8px",
-            transition: "letter-spacing 1.5s cubic-bezier(0.76, 0, 0.24, 1)",
-          }}
-        >
-          Hang Tight!
-        </h1>
+        <h1 className={styles.logo}>Hang Tight!</h1>
 
         <div className={styles.textWrapper}>
-          <div
-            className={styles.text}
-            key={phaseIndex}
-            style={{
-              animation: `${styles.fadeInUp || "fadeInUp"} 0.4s ease forwards`,
-            }}
-          >
+          <div className={styles.text} key={phaseIndex}>
             {loadingPhases[phaseIndex]}
           </div>
         </div>
@@ -114,7 +96,7 @@ export default function Preloader({ onComplete }: { onComplete: () => void }) {
             className={styles.progressFill}
             style={{
               width: `${Math.min(progress, 100)}%`,
-              transition: "width 0.2s ease-out",
+              transition: "width 0.15s ease-out",
             }}
           />
         </div>

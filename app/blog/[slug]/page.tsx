@@ -254,16 +254,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </header>
 
-      {/* Cover Image */}
+      {/* Cover Image — Cinematic Aspect Ratio Fix */}
       {post.cover_image && (
         <div className={styles.articleCover}>
           <div className={styles.articleCoverImage}>
+            {/* Ambient blurred background glow from the cover image itself */}
+            <div
+              className={styles.coverBlurBg}
+              style={{ backgroundImage: `url(${post.cover_image})` }}
+            />
             <Image
               src={post.cover_image}
               alt={post.title}
               fill
               sizes="(max-width: 1100px) 100vw, 1100px"
-              className="object-cover"
+              className={styles.coverImgElement}
               priority
             />
           </div>

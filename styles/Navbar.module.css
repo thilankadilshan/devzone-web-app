@@ -8,6 +8,14 @@
   transition: all 0.4s cubic-bezier(0.76, 0, 0.24, 1);
   background: transparent;
 }
+/* Active Nav Link Styling */
+.link.active {
+  color: var(--text-main);
+}
+
+.link.active::after {
+  width: 100%;
+}
 
 .scrolled {
   padding: 1rem 3rem;

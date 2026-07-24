@@ -115,8 +115,8 @@ export default function Footer() {
             <p className={styles.tagline}>
               Building the future, one line of code at a time.
             </p>
-            <a href="mailto:thilanka@example.com" className={styles.emailLink}>
-              thilanka@example.com
+            <a href="mailto:thilanka.cv@gmail.com" className={styles.emailLink}>
+              thilanka.cv@gmail.com
             </a>
           </div>
 

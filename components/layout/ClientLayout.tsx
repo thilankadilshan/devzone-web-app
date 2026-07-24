@@ -3,12 +3,15 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Preloader from "./Preloader";
 import CustomCursor from "./CustomCursor";
 import Navbar from "./Navbar";
 import Footer from "../sections/Footer";
 
-// Lenis ONLY loads on client — never on server
+gsap.registerPlugin(ScrollTrigger);
+
 const SmoothScroll = dynamic(() => import("./SmoothScroll"), {
   ssr: false,
 });
@@ -22,28 +25,47 @@ export default function ClientLayout({
   const [isLoaded, setIsLoaded] = useState(false);
   const [showPreloader, setShowPreloader] = useState(true);
 
-  // Hide preloader/navbar/footer on dashboard routes
   const isDashboard =
     pathname?.startsWith("/dashboard") || pathname === "/login";
 
+  // Listen for custom navigation event from Navbar
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoaded(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
+    if (isDashboard) return;
 
-  // Skip preloader on dashboard/login pages
+    const handlePreloadTrigger = () => {
+      setShowPreloader(true);
+      setIsLoaded(false);
+    };
+
+    window.addEventListener("start-preloader", handlePreloadTrigger);
+    return () => {
+      window.removeEventListener("start-preloader", handlePreloadTrigger);
+    };
+  }, [isDashboard]);
+
+  // Clean up GSAP on route changes
   useEffect(() => {
     if (isDashboard) {
       setShowPreloader(false);
       setIsLoaded(true);
+      return;
     }
-  }, [isDashboard]);
+
+    ScrollTrigger.getAll().forEach((t) => t.kill());
+    ScrollTrigger.clearMatchMedia();
+
+    setShowPreloader(true);
+    setIsLoaded(false);
+
+    return () => {
+      ScrollTrigger.getAll().forEach((t) => t.kill());
+    };
+  }, [pathname, isDashboard]);
 
   return (
     <>
       <CustomCursor />
 
-      {/* Preloader — hidden on dashboard/login */}
       {!isDashboard && (
         <div
           style={{
@@ -52,14 +74,21 @@ export default function ClientLayout({
             zIndex: 9999,
             pointerEvents: showPreloader ? "auto" : "none",
             opacity: showPreloader ? 1 : 0,
-            transition: "opacity 0.5s ease",
+            transition: "opacity 0.3s ease",
           }}
         >
           {showPreloader && (
             <Preloader
               onComplete={() => {
-                setShowPreloader(false);
+                // FIX: Reveal main content *before* hiding preloader completely to prevent black flash
                 setIsLoaded(true);
+
+                requestAnimationFrame(() => {
+                  setTimeout(() => {
+                    setShowPreloader(false);
+                    ScrollTrigger.refresh();
+                  }, 200);
+                });
               }}
             />
           )}
@@ -69,17 +98,15 @@ export default function ClientLayout({
       <div
         style={{
           opacity: isLoaded ? 1 : 0,
-          transition: "opacity 0.6s ease",
+          transition: "opacity 0.4s ease-in",
         }}
       >
-        {/* Navbar — hidden on dashboard/login */}
         {!isDashboard && <Navbar />}
 
         <SmoothScroll>
           <main>{children}</main>
         </SmoothScroll>
 
-        {/* Footer — hidden on dashboard/login */}
         {!isDashboard && <Footer />}
       </div>
     </>

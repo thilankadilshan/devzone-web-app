@@ -32,7 +32,10 @@ export default function ScrollScene({
     ScrollTrigger.refresh();
 
     return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
+      // FIX: Clean up specifically bound triggers for this component instance
+      ScrollTrigger.getAll().forEach((t) => {
+        if (t.trigger === section) t.kill();
+      });
     };
   }, []);
 

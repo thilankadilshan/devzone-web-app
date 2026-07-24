@@ -1,0 +1,250 @@
+.contactPage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg-primary); /* Base color */
+  color: var(--text-main);
+  overflow-x: hidden;
+  padding-bottom: 6rem;
+}
+
+/* Ambient Glows to fix the "everything is black" issue */
+.ambientGlowRed {
+  position: absolute;
+  top: 10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.1) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambientGlowBlue {
+  position: absolute;
+  top: 50%;
+  right: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(
+    circle,
+    rgba(0, 212, 170, 0.05) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === HERO SECTION === */
+.heroSection {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  z-index: 2;
+}
+
+/* Background Image Wrappers */
+.heroBgWrap {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.heroBgImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55; /* High enough to be clearly visible */
+  filter: grayscale(40%) contrast(1.1); /* Slight cinematic filter */
+}
+
+.heroBgOverlay {
+  position: absolute;
+  inset: 0;
+  /* Fades from a light tint at the top to solid background color at the bottom */
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 5, 7, 0.3) 0%,
+    rgba(5, 5, 7, 0.7) 70%,
+    var(--bg-primary) 100%
+  );
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.85rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.heroTitle span {
+  display: inline-block;
+}
+
+.accentText {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent);
+  text-shadow: 0 0 40px rgba(229, 9, 20, 0.4);
+}
+
+.heroSubtitle {
+  max-width: 600px;
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  color: var(--text-muted);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+/* === CONTACT FORM WRAPPER === */
+/* This just ensures your existing component fits nicely */
+.contactFormWrapper {
+  position: relative;
+  z-index: 2;
+  margin-top: -2rem; /* Pulls it up slightly into the hero fade */
+}
+
+/* === SOCIAL GRID SECTION === */
+.socialSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.sectionHeader h2 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+  font-weight: 800;
+}
+
+.sectionHeader p {
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+}
+
+.socialGrid {
+  display: grid;
+  /* With 8 items, this perfectly creates 2 rows of 4 on desktop */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.socialCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2.5rem 1.5rem;
+  text-decoration: none;
+  overflow: hidden;
+  /* Glassmorphism for the cards so they pop against the background */
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.socialCard:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.cardIcon {
+  margin-bottom: 1rem;
+  z-index: 2;
+  position: relative;
+  /* The exact color is passed directly in the component via style={{color}} */
+}
+
+.cardName {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.cardHandle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.cardGlow {
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  background: var(--card-gradient);
+  filter: blur(50px);
+  border-radius: 50%;
+  opacity: 0.15;
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+
+.socialCard:hover .cardGlow {
+  opacity: 0.4;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .socialGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding-top: 10rem;
+    min-height: 50vh;
+  }
+
+  .heroTitle {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+
+  .socialGrid {
+    grid-template-columns: 1fr;
+  }
+}

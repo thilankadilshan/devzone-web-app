@@ -3,8 +3,46 @@
   width: 100%;
   min-height: 100vh;
   background: var(--bg-primary);
-  padding: 6rem 0;
+  padding: 12rem 0 6rem 0; /* Increased top padding to give the hero image room to breathe */
   overflow: hidden;
+}
+
+/* === NEW: HERO BACKGROUND === */
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80vh; /* Covers the top portion of the page */
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.heroParallaxWrapper {
+  width: 100%;
+  height: 120%; /* Extra height to allow room for the parallax scroll shift */
+  will-change: transform;
+}
+
+.heroBackgroundImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9; /* Keeps it subtle so text remains readable */
+  filter: grayscale(20%) contrast(120%);
+}
+
+.heroBackgroundOverlay {
+  position: absolute;
+  inset: 0;
+  /* Fades out the bottom of the image seamlessly into the page background color */
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 5, 7, 0.1) 0%,
+    rgba(5, 5, 7, 0.8) 60%,
+    var(--bg-primary) 100%
+  );
 }
 
 /* Progress bar at top */
@@ -54,13 +92,13 @@
 
 .titleSection {
   position: relative;
-  z-index: 1;
+  z-index: 2; /* Increased z-index to sit above the hero background */
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  margin-bottom: 6rem;
+  margin-bottom: 8rem;
   padding: 0 2rem;
 }
 
@@ -95,7 +133,7 @@
 
 .projectsContainer {
   position: relative;
-  z-index: 1;
+  z-index: 2; /* Increased z-index */
   display: flex;
   flex-direction: column;
   gap: 8rem;
@@ -109,7 +147,6 @@
 .projectCard {
   position: relative;
   display: grid;
-  /* Adjust grid to give slightly more room for the 16:9 image */
   grid-template-columns: 1fr 1.2fr;
   gap: 4rem;
   align-items: center;
@@ -147,12 +184,11 @@
 .imageSide {
   position: relative;
   width: 100%;
-  /* Strictly enforce 16:9 aspect ratio */
   aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
   perspective: 1000px;
-  order: 2; /* Ensure image stays on the right */
+  order: 2;
 }
 
 .imageWrapper {
@@ -221,7 +257,7 @@
   gap: 1.25rem;
   position: relative;
   z-index: 1;
-  order: 1; /* Ensure text stays on the left */
+  order: 1;
 }
 
 .animateIn {
@@ -338,11 +374,11 @@
   }
 
   .contentSide {
-    order: 2; /* Text moves underneath the image on mobile */
+    order: 2;
   }
 
   .imageSide {
-    order: 1; /* Image stays on top on mobile */
+    order: 1;
   }
 
   .sceneNumber {
@@ -354,11 +390,11 @@
 
 @media (max-width: 768px) {
   .projects {
-    padding: 4rem 0;
+    padding: 8rem 0 4rem 0;
   }
 
   .titleSection {
-    margin-bottom: 3rem;
+    margin-bottom: 4rem;
   }
 
   .projectsContainer {

@@ -77,17 +77,19 @@ const projects: Project[] = [
     tech: ["Next.js", "Framer Motion", "GSAP", "TypeScript"],
     liveUrl: "https://kobaphotography.vercel.app/",
     image: "/images/project-koba.png",
-    accent: "#d4af37", // A luxurious gold accent suitable for photography
+    accent: "#d4af37",
     sceneNumber: "07",
   },
 ];
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, ready }: { project: Project; ready: boolean }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!ready) return;
+
     const card = cardRef.current;
     const image = imageRef.current;
     const content = contentRef.current;
@@ -128,7 +130,11 @@ function ProjectCard({ project }: { project: Project }) {
         },
       );
 
-      const contentChildren = content.querySelectorAll(`.${styles.animateIn}`);
+      const contentChildren = gsap.utils.toArray(
+        `.${styles.animateIn}`,
+        content,
+      );
+
       gsap.fromTo(
         contentChildren,
         { opacity: 0, y: 40 },
@@ -148,7 +154,7 @@ function ProjectCard({ project }: { project: Project }) {
     }, card);
 
     return () => ctx.revert();
-  }, []);
+  }, [ready]);
 
   return (
     <div
@@ -226,10 +232,14 @@ export default function Projects() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
+  const parallaxRef = useRef<HTMLDivElement>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setReady(true), 200);
+    const timer = setTimeout(() => {
+      setReady(true);
+      ScrollTrigger.refresh();
+    }, 200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -239,9 +249,12 @@ export default function Projects() {
     const section = sectionRef.current;
     const title = titleRef.current;
     const progress = progressRef.current;
+    const parallaxTarget = parallaxRef.current;
+
     if (!section || !title || !progress) return;
 
     const ctx = gsap.context(() => {
+      // Title Animation
       gsap.fromTo(
         title,
         { y: 60, opacity: 0 },
@@ -258,6 +271,7 @@ export default function Projects() {
         },
       );
 
+      // Progress Bar
       gsap.fromTo(
         progress,
         { scaleX: 0 },
@@ -272,6 +286,20 @@ export default function Projects() {
           },
         },
       );
+
+      // Hero Image Parallax
+      if (parallaxTarget) {
+        gsap.to(parallaxTarget, {
+          y: "30%", // Moves the image down slightly as you scroll down
+          ease: "none",
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+      }
     }, section);
 
     return () => ctx.revert();
@@ -280,6 +308,19 @@ export default function Projects() {
   return (
     <section ref={sectionRef} className={styles.projects} id="projects">
       <div ref={progressRef} className={styles.progressBar} />
+
+      {/* NEW: Cinematic Hero Background */}
+      <div className={styles.heroBackground}>
+        <div ref={parallaxRef} className={styles.heroParallaxWrapper}>
+          <img
+            src="/images/projects-hero.jpg" /* Change to your preferred hero image */
+            alt="Projects Cinematic Background"
+            className={styles.heroBackgroundImage}
+          />
+        </div>
+        <div className={styles.heroBackgroundOverlay} />
+      </div>
+
       <div className={styles.bgGradient} />
 
       <div ref={titleRef} className={styles.titleSection}>
@@ -292,7 +333,7 @@ export default function Projects() {
 
       <div className={styles.projectsContainer}>
         {projects.map((project) => (
-          <ProjectCard key={project.id} project={project} />
+          <ProjectCard key={project.id} project={project} ready={ready} />
         ))}
       </div>
     </section>

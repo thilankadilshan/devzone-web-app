@@ -86,6 +86,16 @@ export default async function BlogPage({
     <main className={styles.blogPage}>
       {/* Hero Section */}
       <section className={styles.blogHero}>
+        {/* NEW: Cinematic Hero Background */}
+        <div className={styles.heroBackground}>
+          <img
+            src="/images/blog-hero.jpg" /* Make sure to add this image to your public folder */
+            alt="Blog Cinematic Background"
+            className={styles.heroBackgroundImage}
+          />
+          <div className={styles.heroBackgroundOverlay} />
+        </div>
+
         <div className={styles.blogHeroInner}>
           <span className={styles.blogLabel}>Articles & Tutorials</span>
           <h1 className={styles.blogTitle}>Blog</h1>

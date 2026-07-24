@@ -26,7 +26,7 @@ export default function HeroBackground() {
 
     let animationId: number;
     let particles: Particle[] = [];
-    const particleCount = 25;
+    let lastWidth = window.innerWidth;
     const mouse = { x: -1000, y: -1000, active: false };
 
     function resize() {
@@ -44,6 +44,11 @@ export default function HeroBackground() {
       const w = window.innerWidth;
       const h = window.innerHeight;
       particles = [];
+
+      // OPTIMIZATION: Reduce particles on mobile to fix Android lag
+      const isMobile = w <= 768;
+      const particleCount = isMobile ? 12 : 25;
+
       for (let i = 0; i < particleCount; i++) {
         particles.push({
           x: Math.random() * w,
@@ -62,6 +67,10 @@ export default function HeroBackground() {
       if (!canvas || !ctx) return;
       const w = window.innerWidth;
       const h = window.innerHeight;
+
+      // OPTIMIZATION: Reduce massive gradient paint area on small screens
+      const isMobile = w <= 768;
+      const glowMultiplier = isMobile ? 8 : 12;
 
       ctx.clearRect(0, 0, w, h);
 
@@ -98,14 +107,14 @@ export default function HeroBackground() {
           0,
           p.x,
           p.y,
-          pulseSize * 12,
+          pulseSize * glowMultiplier,
         );
         outerGlow.addColorStop(0, `rgba(229, 9, 20, ${p.opacity * 0.3})`);
         outerGlow.addColorStop(0.3, `rgba(229, 9, 20, ${p.opacity * 0.1})`);
         outerGlow.addColorStop(1, "rgba(229, 9, 20, 0)");
         ctx.fillStyle = outerGlow;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, pulseSize * 12, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, pulseSize * glowMultiplier, 0, Math.PI * 2);
         ctx.fill();
 
         // Inner glow
@@ -145,8 +154,15 @@ export default function HeroBackground() {
     draw();
 
     const handleResize = () => {
-      resize();
-      createParticles();
+      const currentWidth = window.innerWidth;
+      resize(); // Always resize canvas so it fits the new height
+
+      // FIX: Only recreate particles if the device WIDTH changes.
+      // This stops particles from resetting when mobile address bar hides/shows.
+      if (currentWidth !== lastWidth) {
+        createParticles();
+        lastWidth = currentWidth;
+      }
     };
 
     const handleMouseMove = (e: MouseEvent) => {

@@ -3,7 +3,6 @@
 import { useRef, useEffect, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Link from "next/link";
 import styles from "../../styles/ProjectsPreview.module.css";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -14,6 +13,7 @@ interface Project {
   tagline: string;
   image: string;
   accent: string;
+  liveUrl: string;
 }
 
 const projects: Project[] = [
@@ -23,6 +23,7 @@ const projects: Project[] = [
     tagline: "Intelligence Meets the Market",
     image: "/images/project-ai-stock.png",
     accent: "#00d4aa",
+    liveUrl: "https://ai-stock-agent.vercel.app/",
   },
   {
     id: "red-carpet",
@@ -30,6 +31,7 @@ const projects: Project[] = [
     tagline: "Where Luxury Meets Digital",
     image: "/images/project-red-carpet.png",
     accent: "#e50914",
+    liveUrl: "https://red-carpet.vip/",
   },
   {
     id: "vjfans",
@@ -37,6 +39,7 @@ const projects: Project[] = [
     tagline: "The Movement Has Begun",
     image: "/images/project-vjfans.png",
     accent: "#f5f5f5",
+    liveUrl: "https://vjfans.club/",
   },
   {
     id: "ceylonetourify",
@@ -44,6 +47,15 @@ const projects: Project[] = [
     tagline: "Discover Paradise",
     image: "/images/project-ceylone.png",
     accent: "#ff9f43",
+    liveUrl: "https://ceylonetourify.vercel.app/",
+  },
+  {
+    id: "koba-photography",
+    title: "Koba Photography",
+    tagline: "Capturing Pure Moments",
+    image: "/images/project-koba.png",
+    accent: "#d4af37",
+    liveUrl: "https://kobaphotography.vercel.app/",
   },
 ];
 
@@ -67,7 +79,7 @@ function PreviewCard({ project, index }: { project: Project; index: number }) {
           y: 0,
           scale: 1,
           duration: 0.8,
-          delay: index * 0.12,
+          delay: (index % 3) * 0.12, // Stagger based on column position
           ease: "power3.out",
           scrollTrigger: {
             trigger: card,
@@ -99,6 +111,27 @@ function PreviewCard({ project, index }: { project: Project; index: number }) {
           className={styles.cardAccentGlow}
           style={{ backgroundColor: project.accent }}
         />
+
+        <a
+          href={project.liveUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.cardLiveLink}
+        >
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M7 17L17 7" />
+            <path d="M7 7h10v10" />
+          </svg>
+        </a>
       </div>
 
       <div className={styles.cardContent}>
@@ -106,27 +139,6 @@ function PreviewCard({ project, index }: { project: Project; index: number }) {
         <h3 className={styles.cardTitle}>{project.title}</h3>
         <p className={styles.cardTagline}>{project.tagline}</p>
       </div>
-
-      <a
-        href={`https://${project.id === "ai-stock-agent" ? "ai-stock-agent.vercel.app" : project.id === "red-carpet" ? "red-carpet.vip" : project.id === "vjfans" ? "vjfans.club" : "ceylonetourify.vercel.app"}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.cardLiveLink}
-      >
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M7 17L17 7" />
-          <path d="M7 7h10v10" />
-        </svg>
-      </a>
     </div>
   );
 }
@@ -177,7 +189,7 @@ export default function ProjectsPreview() {
         <span className={styles.sectionLabel}>The Reel</span>
         <h2 className={styles.heading}>Featured Works</h2>
         <p className={styles.subtitle}>
-          Four builds. Four stories. One engineer.
+          Five builds. Five stories. One engineer.
         </p>
       </div>
 

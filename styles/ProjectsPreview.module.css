@@ -66,23 +66,25 @@
   margin-top: 0.25rem;
 }
 
-/* === GRID — 4 CARDS === */
+/* === GRID === */
 
 .grid {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  /* Strictly force 3 cards per row */
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
 }
 
 /* === CARD === */
 
 .card {
   position: relative;
-  aspect-ratio: 3 / 4;
+  display: flex;
+  flex-direction: column;
   border-radius: 20px;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.02);
@@ -102,15 +104,19 @@
     0 0 40px rgba(229, 9, 20, 0.08);
 }
 
-/* Image */
+/* Image Wrapper (Strict 16:9) */
 
 .cardImageWrap {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 
 .cardImage {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -124,13 +130,9 @@
 .cardOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(5, 5, 7, 0.95) 0%,
-    rgba(5, 5, 7, 0.4) 40%,
-    transparent 70%
-  );
+  background: linear-gradient(to top, rgba(5, 5, 7, 0.5) 0%, transparent 60%);
   z-index: 1;
+  pointer-events: none;
 }
 
 .cardAccentGlow {
@@ -145,49 +147,11 @@
   opacity: 0;
   z-index: 2;
   transition: opacity 0.5s ease;
+  pointer-events: none;
 }
 
 .card:hover .cardAccentGlow {
   opacity: 0.5;
-}
-
-/* Content */
-
-.cardContent {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 1.5rem;
-  z-index: 3;
-}
-
-.cardNumber {
-  position: absolute;
-  top: -3rem;
-  right: 1rem;
-  font-size: 4rem;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.04);
-  line-height: 1;
-}
-
-.cardTitle {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--text-main);
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  margin: 0 0 0.35rem;
-  line-height: 1.2;
-}
-
-.cardTagline {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  font-style: italic;
-  margin: 0;
-  line-height: 1.4;
 }
 
 /* Live link icon */
@@ -221,6 +185,52 @@
   background: var(--accent);
   border-color: var(--accent);
   box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+}
+
+/* Content */
+
+.cardContent {
+  position: relative;
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 3;
+}
+
+.cardNumber {
+  position: absolute;
+  top: -2rem;
+  right: 1.5rem;
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.06);
+  line-height: 1;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cardTitle {
+  position: relative;
+  z-index: 1;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-main);
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.35rem;
+  line-height: 1.2;
+}
+
+.cardTagline {
+  position: relative;
+  z-index: 1;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin: 0;
+  line-height: 1.4;
 }
 
 /* === SHOW MORE BUTTON === */
@@ -268,12 +278,9 @@
 
 @media (max-width: 1200px) {
   .grid {
+    /* Drop to 2 cards per row on tablets/small laptops */
     grid-template-columns: repeat(2, 1fr);
     max-width: 800px;
-  }
-
-  .card {
-    aspect-ratio: 16 / 10;
   }
 }
 
@@ -284,18 +291,15 @@
   }
 
   .grid {
+    /* Drop to 1 card per row on mobile */
     grid-template-columns: 1fr;
     max-width: 420px;
-    gap: 1rem;
-  }
-
-  .card {
-    aspect-ratio: 16 / 9;
+    gap: 1.5rem;
   }
 
   .cardNumber {
-    font-size: 3rem;
-    top: -2.5rem;
+    font-size: 2.5rem;
+    top: -1.75rem;
   }
 
   .ctaWrap {

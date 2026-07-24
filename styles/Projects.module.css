@@ -109,7 +109,8 @@
 .projectCard {
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* Adjust grid to give slightly more room for the 16:9 image */
+  grid-template-columns: 1fr 1.2fr;
   gap: 4rem;
   align-items: center;
   padding: 3rem;
@@ -141,30 +142,17 @@
   z-index: 0;
 }
 
-/* Card layout alternation */
-.cardLeft .imageSide {
-  order: 1;
-}
-.cardLeft .contentSide {
-  order: 2;
-}
-
-.cardRight .imageSide {
-  order: 2;
-}
-.cardRight .contentSide {
-  order: 1;
-}
-
 /* === IMAGE SIDE === */
 
 .imageSide {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  /* Strictly enforce 16:9 aspect ratio */
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
   perspective: 1000px;
+  order: 2; /* Ensure image stays on the right */
 }
 
 .imageWrapper {
@@ -198,20 +186,12 @@
   );
 }
 
-.imagePlaceholderText {
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  font-weight: 800;
-  color: rgba(255, 255, 255, 0.15);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  z-index: 1;
-}
-
 .imageOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(5, 5, 7, 0.8) 0%, transparent 40%);
+  background: linear-gradient(to top, rgba(5, 5, 7, 0.5) 0%, transparent 40%);
   z-index: 2;
+  pointer-events: none;
 }
 
 .accentGlow {
@@ -226,6 +206,7 @@
   opacity: 0.4;
   z-index: 3;
   transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 
 .projectCard:hover .accentGlow {
@@ -240,6 +221,7 @@
   gap: 1.25rem;
   position: relative;
   z-index: 1;
+  order: 1; /* Ensure text stays on the left */
 }
 
 .animateIn {
@@ -355,18 +337,12 @@
     padding: 2rem;
   }
 
-  .cardLeft .imageSide,
-  .cardRight .imageSide {
-    order: -1;
-  }
-
-  .cardLeft .contentSide,
-  .cardRight .contentSide {
-    order: 1;
+  .contentSide {
+    order: 2; /* Text moves underneath the image on mobile */
   }
 
   .imageSide {
-    aspect-ratio: 16 / 9;
+    order: 1; /* Image stays on top on mobile */
   }
 
   .sceneNumber {

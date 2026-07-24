@@ -1,0 +1,265 @@
+.techPage {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: var(--bg-primary);
+  color: var(--text-main);
+  overflow-x: hidden;
+  padding-bottom: 6rem;
+}
+
+/* Ambient Glows */
+.ambientGlowRed {
+  position: absolute;
+  top: 15%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.1) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambientGlowBlue {
+  position: absolute;
+  top: 60%;
+  right: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: radial-gradient(
+    circle,
+    rgba(0, 212, 170, 0.05) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === HERO SECTION === */
+.heroSection {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  z-index: 2;
+}
+
+.heroBgWrap {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.heroBgImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+  filter: grayscale(40%) contrast(1.1);
+}
+
+.heroBgOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(5, 5, 7, 0.3) 0%,
+    rgba(5, 5, 7, 0.7) 70%,
+    var(--bg-primary) 100%
+  );
+}
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.85rem;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.heroTitle {
+  font-size: clamp(2.5rem, 6vw, 6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin: 0 0 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.heroTitle span {
+  display: inline-block;
+}
+
+.accentText {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent);
+  text-shadow: 0 0 40px rgba(229, 9, 20, 0.4);
+}
+
+.heroSubtitle {
+  max-width: 600px;
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+  color: var(--text-muted);
+  line-height: 1.8;
+  font-weight: 300;
+}
+
+/* === TECH STACK COMPONENT WRAPPER === */
+.techStackWrapper {
+  position: relative;
+  z-index: 2;
+  margin: 2rem 0;
+}
+
+/* === EXPERTISE BREAKDOWN SECTION === */
+.expertiseSection {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 6rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.sectionHeader h2 {
+  font-size: 2.5rem;
+  text-transform: uppercase;
+  margin: 0 0 0.5rem;
+  font-weight: 800;
+}
+
+.sectionHeader p {
+  color: var(--text-muted);
+  margin-bottom: 4rem;
+}
+
+.expertiseGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  text-align: left;
+}
+
+.expertiseCard {
+  position: relative;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.01) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 10px 40px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+  padding: 2.5rem;
+  overflow: hidden;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.cardIcon {
+  font-size: 2rem;
+}
+
+.cardHeader h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0;
+  color: var(--text-main);
+}
+
+.cardDescription {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.skillsTagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  position: relative;
+  z-index: 2;
+}
+
+.skillTag {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 0.9rem;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  color: var(--text-main);
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.cardGlow {
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(
+    circle,
+    rgba(229, 9, 20, 0.2) 0%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  border-radius: 50%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .expertiseGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding-top: 10rem;
+    min-height: 50vh;
+  }
+
+  .heroTitle {
+    font-size: clamp(2.5rem, 10vw, 4rem);
+  }
+
+  .expertiseCard {
+    padding: 1.75rem;
+  }
+}

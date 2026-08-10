@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | Thilanka Dilshan",
   },
   description:
-    "Thilanka Dilshan is a 23-year-old Software Engineer from Nochchiyagama, Sri Lanka, Content Creator on YouTube/TikTok/Instagram, and Singer. Specializing in MERN stack, TypeScript, Laravel, and Prisma. Building scalable applications at Sharper Labs. Founder of Dilshan DevZone.",
+    "Thilanka Dilshan is a 24-year-old Software Engineer, Web Developer, Content Creator, and Singer from Nochchiyagama, Anuradhapura, Sri Lanka. Building scalable applications at Sharper Labs. Graduate of NSBM Green University and Plymouth University.",
   keywords: [
     "Thilanka Dilshan",
     "Thilanka Dilshan singer",
@@ -64,14 +64,23 @@ export const metadata: Metadata = {
     "Nochchiyagama developer",
     "Anuradhapura developer",
     "Sri Lankan tech YouTuber",
+    "thilanka dilshan anuradhapura",
+    "thilanka dilshan nochchiyagama",
+    "thilanka dilshan web developer",
+    "thilankd dilshan content creator",
+    "thilanka dilshan software engineer",
+    "thilanka dilshan singer",
+    "nsbm thilanksdilshan pymouth uni",
+    "thilanka dilshan plymouth university",
+    "thilanka dilshan nsbm green university",
   ],
   authors: [
-    { name: "Thilanka Dilshan", url: "https://thilankadilshan.vercel.app" },
+    { name: "Thilanka Dilshan", url: "https://thilankadilshan.vercel.app/" },
   ],
   creator: "Thilanka Dilshan",
   publisher: "Thilanka Dilshan",
 
-  metadataBase: new URL("https://thilankadilshan.vercel.app"),
+  metadataBase: new URL("https://thilankadilshan.vercel.app/"),
   alternates: {
     canonical: "/",
   },
@@ -91,17 +100,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://thilankadilshan.vercel.app",
+    url: "https://thilankadilshan.vercel.app/",
     siteName: "Thilanka Dilshan",
     title: "Thilanka Dilshan | Software Engineer, Content Creator & Singer",
     description:
-      "23-year-old Software Engineer from Nochchiyagama, Sri Lanka. MERN Stack, TypeScript, Laravel, Prisma. Content Creator on YouTube, TikTok, Instagram. Singer. Building at Sharper Labs.",
+      "24-year-old Software Engineer and Web Developer from Nochchiyagama, Anuradhapura, Sri Lanka. Content Creator & Singer. Graduate of NSBM & Plymouth Uni. Building at Sharper Labs.",
     images: [
       {
         url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Thilanka Dilshan - Software Engineer, Content Creator & Singer from Sri Lanka",
+        alt: "Thilanka Dilshan - Software Engineer, Web Developer, Content Creator & Singer from Sri Lanka",
       },
     ],
   },
@@ -110,7 +119,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Thilanka Dilshan | Software Engineer, Content Creator & Singer",
     description:
-      "23-year-old Software Engineer from Sri Lanka. MERN Stack, TypeScript, Laravel. Content Creator & Singer. Building at Sharper Labs.",
+      "24-year-old Software Engineer & Web Developer from Anuradhapura, Sri Lanka. Content Creator & Singer. NSBM & Plymouth Uni alumni.",
     images: ["/images/og-image.jpg"],
     creator: "@thilankadilshan",
   },
@@ -134,8 +143,6 @@ export const metadata: Metadata = {
       },
     ],
   },
-
-  manifest: "/site.webmanifest",
 
   verification: {
     google: "DZ874L8ryzcn2OxoonqlnVYq5vl54KPsiAxGD82hYcU",

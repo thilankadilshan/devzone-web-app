@@ -3,13 +3,13 @@ export default function WebSiteSchema() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "Thilanka Dilshan",
-    url: "https://thilankadilshan.vercel.app",
+    url: "https://thilankadilshan.vercel.app/",
     description:
-      "Official portfolio of Thilanka Dilshan - Software Engineer, Content Creator, and Singer from Sri Lanka.",
+      "Official portfolio of Thilanka Dilshan - Software Engineer, Web Developer, Content Creator, and Singer from Anuradhapura, Sri Lanka.",
     publisher: {
       "@type": "Person",
       name: "Thilanka Dilshan",
-      url: "https://thilankadilshan.vercel.app",
+      url: "https://thilankadilshan.vercel.app/",
     },
     potentialAction: {
       "@type": "SearchAction",

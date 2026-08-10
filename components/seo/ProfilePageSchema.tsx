@@ -6,11 +6,11 @@ export default function ProfilePageSchema() {
       "@type": "Person",
       name: "Thilanka Dilshan",
       alternateName: ["Dilshan DevZone", "TD"],
-      url: "https://thilankadilshan.vercel.app",
+      url: "https://thilankadilshan.vercel.app/",
       image: "https://thilankadilshan.vercel.app/images/profile.jpg",
-      jobTitle: "Software Engineer",
+      jobTitle: ["Software Engineer", "Web Developer"],
       description:
-        "Thilanka Dilshan is a Software Engineer, Content Creator, and Singer from Nochchiyagama, Sri Lanka. He specializes in full-stack web development, creates content on YouTube and TikTok, and shares his singing talent across social media platforms.",
+        "Thilanka Dilshan is a Software Engineer, Web Developer, Content Creator, and Singer from Nochchiyagama, Anuradhapura, Sri Lanka. He specializes in full-stack web development, creates content on YouTube and TikTok, and shares his singing talent. Graduate of NSBM Green University and University of Plymouth.",
       worksFor: {
         "@type": "Organization",
         name: "Sharper Labs",
@@ -38,6 +38,7 @@ export default function ProfilePageSchema() {
         "Node.js",
         "MongoDB",
         "Software Engineering",
+        "Web Development",
         "Full-Stack Development",
         "Content Creation",
         "YouTube Content Creation",
@@ -53,7 +54,7 @@ export default function ProfilePageSchema() {
         "https://www.tiktok.com/@thilanka.dilshan",
         "https://www.instagram.com/thilankadilshann",
         "https://facebook.com/thilankadilshann",
-        "https://thilankadilshan.vercel.app",
+        "https://thilankadilshan.vercel.app/",
       ],
       nationality: {
         "@type": "Country",
@@ -62,7 +63,7 @@ export default function ProfilePageSchema() {
       address: {
         "@type": "PostalAddress",
         addressCountry: "Sri Lanka",
-        addressLocality: "Nochchiyagama",
+        addressLocality: "Nochchiyagama, Anuradhapura",
         addressRegion: "North Central Province",
       },
       birthPlace: {

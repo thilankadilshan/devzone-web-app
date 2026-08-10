@@ -8,7 +8,7 @@ export default function FAQSchema() {
         name: "Who is Thilanka Dilshan?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Thilanka Dilshan is a 23-year-old Software Engineer, Content Creator, and Singer from Nochchiyagama, Sri Lanka. He specializes in full-stack web development using the MERN stack, TypeScript, Laravel, and Prisma. He is also the founder of Dilshan DevZone on YouTube and creates content across TikTok, Instagram, and Facebook.",
+          text: "Thilanka Dilshan is a 23-year-old Software Engineer, Web Developer, Content Creator, and Singer from Nochchiyagama, Anuradhapura, Sri Lanka. He specializes in full-stack web development using the MERN stack, TypeScript, Laravel, and Prisma. He is a graduate of NSBM Green University and Plymouth University, and the founder of Dilshan DevZone.",
         },
       },
       {
@@ -16,7 +16,7 @@ export default function FAQSchema() {
         name: "What does Thilanka Dilshan do?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: "Thilanka Dilshan works as a Software Engineer at Sharper Labs, building scalable web applications. He is also a content creator on YouTube (Dilshan DevZone), TikTok, Instagram, and Facebook, sharing tech tutorials, lifestyle content, and singing videos. He builds websites, mobile apps, and software solutions for clients worldwide.",
+          text: "Thilanka Dilshan works as a Software Engineer and Web Developer at Sharper Labs, building scalable web applications. He is also a content creator on YouTube (Dilshan DevZone), TikTok, Instagram, and Facebook, sharing tech tutorials, lifestyle content, and singing videos.",
         },
       },
       {
@@ -37,6 +37,14 @@ export default function FAQSchema() {
       },
       {
         "@type": "Question",
+        name: "Where did Thilanka Dilshan study?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Thilanka Dilshan studied at NSBM Green University in Sri Lanka and graduated with a degree awarded by the University of Plymouth (Plymouth Uni).",
+        },
+      },
+      {
+        "@type": "Question",
         name: "What technologies does Thilanka Dilshan use?",
         acceptedAnswer: {
           "@type": "Answer",
@@ -49,14 +57,6 @@ export default function FAQSchema() {
         acceptedAnswer: {
           "@type": "Answer",
           text: "You can contact Thilanka Dilshan through his portfolio website at thilankadilshan.vercel.app/contact, via email at thilanka.cv@gmail.com, or through his social media profiles on LinkedIn, Twitter/X, Instagram, and Facebook.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is Dilshan DevZone?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Dilshan DevZone is Thilanka Dilshan's YouTube channel where he shares tech tutorials, coding tips, web development guides, and insights into the software engineering world. It is a platform for aspiring developers to learn and grow.",
         },
       },
     ],

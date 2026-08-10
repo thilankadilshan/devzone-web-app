@@ -4,9 +4,9 @@ export default function PersonSchema() {
     "@type": "Person",
     name: "Thilanka Dilshan",
     alternateName: ["Dilshan DevZone", "TD"],
-    url: "https://thilankadilshan.vercel.app",
+    url: "https://thilankadilshan.vercel.app/",
     image: "https://thilankadilshan.vercel.app/images/profile.jpg",
-    jobTitle: "Software Engineer",
+    jobTitle: ["Software Engineer", "Web Developer", "Content Creator"],
     worksFor: {
       "@type": "Organization",
       name: "Sharper Labs",
@@ -34,6 +34,7 @@ export default function PersonSchema() {
       "Node.js",
       "MongoDB",
       "Software Engineering",
+      "Web Development",
       "Full-Stack Development",
       "Content Creation",
       "YouTube Content Creation",
@@ -49,7 +50,7 @@ export default function PersonSchema() {
       "https://www.tiktok.com/@thilanka.dilshan",
       "https://www.instagram.com/thilankadilshann",
       "https://facebook.com/thilankadilshann",
-      "https://thilankadilshan.vercel.app",
+      "https://thilankadilshan.vercel.app/",
     ],
     nationality: {
       "@type": "Country",
@@ -58,7 +59,7 @@ export default function PersonSchema() {
     address: {
       "@type": "PostalAddress",
       addressCountry: "Sri Lanka",
-      addressLocality: "Nochchiyagama",
+      addressLocality: "Nochchiyagama, Anuradhapura",
       addressRegion: "North Central Province",
     },
     birthPlace: {

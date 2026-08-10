@@ -2,10 +2,10 @@ import { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Thilanka Dilshan - Portfolio",
+    name: "Thilanka Dilshan",
     short_name: "Thilanka Dilshan",
     description:
-      "Portfolio of Thilanka Dilshan, Software Engineer from Sri Lanka",
+      "Portfolio of Thilanka Dilshan, Software Engineer and Web Developer from Sri Lanka",
     start_url: "/",
     display: "standalone",
     background_color: "#050507",

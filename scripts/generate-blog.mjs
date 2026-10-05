@@ -35,9 +35,24 @@ async function generateBlog() {
 
     const categoryNames = categories.map(c => c.name).join(", ");
     
-    // 3. Ask Gemini for a Blog Post
-    console.log("🧠 Thinking of a topic and writing content...");
-    const prompt = `You are an expert technical blogger. Write a highly engaging, SEO-optimized blog post about a trending software development, web development, or AI programming topic.
+    // 3. Pick a random diverse topic
+    const diverseTopics = [
+      "Artificial Intelligence & Machine Learning",
+      "Cloud Computing & DevOps (AWS, Docker, Kubernetes)",
+      "Cybersecurity and Ethical Hacking",
+      "System Design and Software Architecture",
+      "Python Data Science & Automation",
+      "Mobile App Development (React Native, Flutter, Swift)",
+      "Web3, Blockchain, and Smart Contracts",
+      "Modern Web Development (Next.js, Vue, Svelte)",
+      "Backend Engineering (Go, Rust, Node.js, Microservices)",
+      "Database Optimization (PostgreSQL, Redis, MongoDB)"
+    ];
+    const randomTopic = diverseTopics[Math.floor(Math.random() * diverseTopics.length)];
+
+    // 4. Ask AI for a Blog Post
+    console.log(`🧠 Thinking of a topic about ${randomTopic}...`);
+    const prompt = `You are an expert technical blogger. Write a highly engaging, SEO-optimized blog post specifically focused on the following broad category: ${randomTopic}. Do NOT write about React or MERN unless the topic explicitly requires it.
     
     Requirements:
     - Create a catchy title.

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import imageCompression from 'browser-image-compression';
 import TipTapEditor from "./TipTapEditor";
 import styles from "@/styles/PostForm.module.css";
 
@@ -181,27 +182,46 @@ export default function PostForm({ initialData, mode }: PostFormProps) {
     setIsSaving(true);
 
     try {
-      const { error: uploadError } = await supabase.storage
-        .from("blog-images")
-        .upload(filePath, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
+      // 1. Compress the image before uploading
+      const options = {
+        maxSizeMB: 0.3, // Compress to ~300KB
+        maxWidthOrHeight: 1200, // Max width/height for blog cover
+        useWebWorker: true,
+      };
+      
+      const compressedFile = await imageCompression(file, options);
+      console.log(`Original size: ${(file.size / 1024 / 1024).toFixed(2)} MB`);
+      console.log(`Compressed size: ${(compressedFile.size / 1024 / 1024).toFixed(2)} MB`);
 
-      if (uploadError) {
-        alert("Upload failed: " + uploadError.message);
-        setIsSaving(false);
-        return;
-      }
+      // 2. Get Presigned URL from our secure server route
+      const presignRes = await fetch('/api/upload/presign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          filename: file.name, 
+          contentType: compressedFile.type 
+        })
+      });
+      
+      if (!presignRes.ok) throw new Error("Failed to get upload URL");
+      
+      const { signedUrl, publicUrl } = await presignRes.json();
 
-      const { data: urlData } = supabase.storage
-        .from("blog-images")
-        .getPublicUrl(filePath);
+      // 3. Upload directly to Cloudflare R2 using the presigned URL
+      const uploadRes = await fetch(signedUrl, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': compressedFile.type,
+        },
+        body: compressedFile
+      });
+
+      if (!uploadRes.ok) throw new Error("Failed to upload image to R2");
 
       setForm((prev) => ({
         ...prev,
-        cover_image: urlData.publicUrl,
-        og_image: prev.og_image || urlData.publicUrl,
+        cover_image: publicUrl,
+        og_image: prev.og_image || publicUrl,
       }));
     } catch (err) {
       console.error("Upload error:", err);

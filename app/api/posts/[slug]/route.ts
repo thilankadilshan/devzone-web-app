@@ -9,6 +9,8 @@ export async function GET(
   const supabase = await createClient();
   const { slug } = await params;
 
+  const isId = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug);
+
   const { data, error } = await supabase
     .from("posts")
     .select(
@@ -17,7 +19,7 @@ export async function GET(
         category:categories(id, name, slug)
       )`,
     )
-    .eq("slug", slug)
+    .eq(isId ? "id" : "slug", slug)
     .single();
 
   if (error) {
@@ -54,11 +56,13 @@ export async function PATCH(
   const body = await request.json();
   const { category_ids, ...postData } = body;
 
-  // First get the post ID from slug
+  const isId = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug);
+
+  // First get the post ID from slug (or ID)
   const { data: existingPost } = await supabase
     .from("posts")
     .select("id")
-    .eq("slug", slug)
+    .eq(isId ? "id" : "slug", slug)
     .single();
 
   if (!existingPost) {
@@ -115,19 +119,27 @@ export async function DELETE(
   } = await supabase.auth.getUser();
 
   if (!user) {
+    console.log("DELETE API: Unauthorized - no user");
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { slug } = await params;
+  console.log("DELETE API: Received slug/id parameter:", slug);
 
-  // Get post ID from slug first
-  const { data: existingPost } = await supabase
+  const isId = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug);
+  console.log("DELETE API: isId detected as:", isId);
+
+  // Get post ID from slug (or ID) first
+  const { data: existingPost, error: lookupError } = await supabase
     .from("posts")
     .select("id")
-    .eq("slug", slug)
+    .eq(isId ? "id" : "slug", slug)
     .single();
 
+  console.log("DELETE API: existingPost result:", existingPost, "Error:", lookupError);
+
   if (!existingPost) {
+    console.log("DELETE API: Returning 404 because existingPost is null");
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
   }
 
@@ -137,9 +149,11 @@ export async function DELETE(
     .eq("id", existingPost.id);
 
   if (error) {
+    console.log("DELETE API: Deletion error:", error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
+  console.log("DELETE API: Successfully deleted");
   return NextResponse.json({ success: true });
 }
 //thanks

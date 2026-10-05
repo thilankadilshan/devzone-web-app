@@ -43,7 +43,7 @@ async function generateBlog() {
     - Create a catchy title.
     - The slug should be url-friendly.
     - Write a compelling excerpt (max 160 chars).
-    - Write the content using HTML tags (e.g., <h2>, <p>, <pre><code> for code blocks, <strong> for emphasis). Make it EXTREMELY short and concise (MAXIMUM 200 words). Do not write long code blocks.
+    - Write the content using HTML tags (e.g., <h2>, <p>, <pre><code> for code blocks, <strong> for emphasis). Write a detailed, educational blog post (approx 500-600 words). Ensure you fully complete your response so the JSON is not cut off.
     - Provide SEO meta title (max 60 chars) and meta description (max 160 chars).
     - Provide 3-5 relevant tags.
     - Pick ONE of the following existing category names that best fits: ${categoryNames}.
